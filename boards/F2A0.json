@@ -1,13 +1,14 @@
 {
   "build": {
     "core": "esp32",
-    "extra_flags": "-DARDUINO_QUANTUM",
+    "extra_flags": "-DARDUINO_UBLOX_NINA_W10",
     "f_cpu": "240000000L",
     "f_flash": "40000000L",
-    "flash_mode": "qio",
+    "flash_mode": "dio",
     "ldscript": "esp32_out.ld",
     "mcu": "esp32",
-    "variant": "quantum"
+    "partitions": "minimal.csv",
+    "variant": "nina_w10"
   },
   "connectivity": [
     "wifi",
@@ -19,14 +20,14 @@
     "arduino",
     "espidf"
   ],
-  "name": "Noduino Quantum",
+  "name": "NINA-W10",
   "upload": {
-    "flash_size": "16MB",
+    "flash_size": "2MB",
     "maximum_ram_size": 327680,
-    "maximum_size": 16777216,
+    "maximum_size": 2097152,
     "require_upload_port": true,
     "speed": 921600
   },
-  "url": "http://wiki.jackslab.org/Noduino",
-  "vendor": "Noduino"
+  "url": "https://www.u-blox.com/en/product/nina-w10-series",
+  "vendor": "u-blox"
 }

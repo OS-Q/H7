@@ -1,14 +1,13 @@
 {
   "build": {
     "core": "esp32",
-    "extra_flags": "-DARDUINO_UBLOX_NINA_W10",
+    "extra_flags": "-DARDUINO_NANO32",
     "f_cpu": "240000000L",
     "f_flash": "40000000L",
     "flash_mode": "dio",
     "ldscript": "esp32_out.ld",
     "mcu": "esp32",
-    "partitions": "minimal.csv",
-    "variant": "nina_w10"
+    "variant": "nano32"
   },
   "connectivity": [
     "wifi",
@@ -18,16 +17,18 @@
   ],
   "frameworks": [
     "arduino",
-    "espidf"
+    "espidf",
+    "simba",
+    "pumbaa"
   ],
-  "name": "u-blox NINA-W10 series",
+  "name": "Nano32",
   "upload": {
-    "flash_size": "2MB",
+    "flash_size": "4MB",
     "maximum_ram_size": 327680,
-    "maximum_size": 2097152,
+    "maximum_size": 4194304,
     "require_upload_port": true,
     "speed": 921600
   },
-  "url": "https://www.u-blox.com/en/product/nina-w10-series",
-  "vendor": "u-blox"
+  "url": "http://iot-bits.com/nano32-esp32-development-board",
+  "vendor": "MakerAsia"
 }
