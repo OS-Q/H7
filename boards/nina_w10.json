@@ -1,14 +1,14 @@
 {
   "build": {
     "core": "esp32",
-    "extra_flags": "-DARDUINO_ESP32_DEV -DBOARD_HAS_PSRAM -mfix-esp32-psram-cache-issue",
+    "extra_flags": "-DARDUINO_UBLOX_NINA_W10",
     "f_cpu": "240000000L",
     "f_flash": "40000000L",
     "flash_mode": "dio",
     "ldscript": "esp32_out.ld",
     "mcu": "esp32",
-    "partitions": "huge_app.csv",
-    "variant": "esp32"
+    "partitions": "minimal.csv",
+    "variant": "nina_w10"
   },
   "connectivity": [
     "wifi",
@@ -20,14 +20,14 @@
     "arduino",
     "espidf"
   ],
-  "name": "AI Thinker ESP32-CAM",
+  "name": "u-blox NINA-W10 series",
   "upload": {
-    "flash_size": "4MB",
+    "flash_size": "2MB",
     "maximum_ram_size": 327680,
-    "maximum_size": 4194304,
+    "maximum_size": 2097152,
     "require_upload_port": true,
-    "speed": 460800
+    "speed": 921600
   },
-  "url": "https://wiki.ai-thinker.com/esp32-cam",
-  "vendor": "AI Thinker"
+  "url": "https://www.u-blox.com/en/product/nina-w10-series",
+  "vendor": "u-blox"
 }
