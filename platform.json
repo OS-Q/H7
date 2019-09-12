@@ -44,17 +44,17 @@
     "framework-N14": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/framework-N14.git"
+      "version": "https://github.com/OS-Q/N14.git"
     },
     "framework-N16": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/framework-N16.git"
+      "version": "https://github.com/OS-Q/N16.git"
     },
     "framework-N17": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/framework-N17.git"
+      "version": "https://github.com/OS-Q/N17.git"
     },
     "toolchain-xtensa32": {
       "type": "toolchain",
