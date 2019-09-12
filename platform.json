@@ -15,17 +15,7 @@
   "version": "1.0.0",
   "packageRepositories": [
     "https://dl.bintray.com/platformio/dl-packages/manifest.json",
-    "http://dl.platformio.org/packages/manifest.json",
-    {
-	    "framework-N16": {
-		"type": "framework",
-		"version": "https://github.com/OS-Q/N16.git"
-	    },
-	    "framework-N17": {
-		"type": "framework",
-		"version": "https://github.com/OS-Q/N17.git"
-	    },
-   }
+    "http://dl.platformio.org/packages/manifest.json"
   ],
   "frameworks": {
     "arduino": {

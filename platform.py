@@ -3,7 +3,7 @@ from os.path import isdir
 from platformio.managers.platform import PlatformBase
 
 
-class Espressif32Platform(PlatformBase):
+class H7Platform(PlatformBase):
 
     def configure_default_packages(self, variables, targets):
         if "buildfs" in targets:
