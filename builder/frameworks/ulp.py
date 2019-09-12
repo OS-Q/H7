@@ -10,7 +10,7 @@ Import("env")
 ulp_env = env.Clone()
 
 platform = ulp_env.PioPlatform()
-FRAMEWORK_DIR = platform.get_package_dir("framework-espidf")
+FRAMEWORK_DIR = platform.get_package_dir("framework-N14")
 ULP_TOOLCHAIN_DIR = platform.get_package_dir("toolchain-esp32ulp")
 ULP_BUILD_DIR = join("$BUILD_DIR", "ulp_app")
 

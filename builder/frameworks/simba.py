@@ -37,7 +37,7 @@ env.AddMethod(LookupSources)
 env.AddMethod(VariantDirWrap)
 
 env.Replace(
-    PLATFORMFW_DIR=env.PioPlatform().get_package_dir("framework-simba"),
+    PLATFORMFW_DIR=env.PioPlatform().get_package_dir("framework-N16"),
     UPLOADERFLAGS=[]  # Backward compatibility for obsolete build script
 )
 

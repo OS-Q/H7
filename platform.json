@@ -1,7 +1,7 @@
 {
-  "name": "ESP32",
-  "title": "ESP32",
-  "description": "Espressif Systems is a privately held fabless semiconductor company.",
+  "name": "H7",
+  "title": "H7",
+  "description": "ESP32开发平台",
   "url": "https://espressif.com/",
   "homepage": "https://github.com/OS-Q/H7",
   "license": " ",
@@ -16,28 +16,56 @@
   "packageRepositories": [
     "https://dl.bintray.com/platformio/dl-packages/manifest.json",
     "http://dl.platformio.org/packages/manifest.json",
-    "https://raw.githubusercontent.com/eerimoq/simba/master/make/platformio/manifest.json",
-    "https://raw.githubusercontent.com/eerimoq/pumbaa/master/make/platformio/manifest.json"
+    {
+	    "framework-N16": {
+		"type": "framework",
+		"version": "https://github.com/OS-Q/N16.git"
+	    },
+	    "framework-N17": {
+		"type": "framework",
+		"version": "https://github.com/OS-Q/N17.git"
+	    },
+   }
   ],
   "frameworks": {
     "arduino": {
-      "package": "framework-arduinoespressif32",
+      "package": "framework-N15",
       "script": "builder/frameworks/arduino.py"
     },
     "espidf": {
-      "package": "framework-espidf",
+      "package": "framework-N14",
       "script": "builder/frameworks/espidf.py"
     },
     "simba": {
-      "package": "framework-simba",
+      "package": "framework-N16",
       "script": "builder/frameworks/simba.py"
     },
     "pumbaa": {
-      "package": "framework-pumbaa",
+      "package": "framework-N17",
       "script": "builder/frameworks/pumbaa.py"
     }
   },
   "packages": {
+    "framework-N15": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/N15.git"
+    },
+    "framework-N14": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/framework-N14.git"
+    },
+    "framework-N16": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/framework-N16.git"
+    },
+    "framework-N17": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/framework-N17.git"
+    },
     "toolchain-xtensa32": {
       "type": "toolchain",
       "version": "~2.50200.0"
@@ -46,26 +74,6 @@
       "type": "toolchain",
       "optional": true,
       "version": "~1.22851.190618"
-    },
-    "framework-arduinoespressif32": {
-      "type": "framework",
-      "optional": true,
-      "version": "~2.10002.190416"
-    },
-    "framework-espidf": {
-      "type": "framework",
-      "optional": true,
-      "version": "~3.30202.0"
-    },
-    "framework-simba": {
-      "type": "framework",
-      "optional": true,
-      "version": ">=12.2.0"
-    },
-    "framework-pumbaa": {
-      "type": "framework",
-      "optional": true,
-      "version": ">=2.3.0"
     },
     "tool-esptoolpy": {
       "type": "uploader",

@@ -39,7 +39,7 @@ env.AddMethod(LookupSources)
 env.AddMethod(VariantDirWrap)
 
 env.Replace(
-    PLATFORMFW_DIR=env.PioPlatform().get_package_dir("framework-pumbaa"),
+    PLATFORMFW_DIR=env.PioPlatform().get_package_dir("framework-N17"),
     UPLOADERFLAGS=[]  # Backward compatibility for obsolete build script
 )
 

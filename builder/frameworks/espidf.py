@@ -26,12 +26,12 @@ ulp_dir = join(env.subst("$PROJECT_DIR"), "ulp")
 if isdir(ulp_dir) and listdir(ulp_dir):
     ulp_lib = env.SConscript("ulp.py", exports="env")
 
-FRAMEWORK_DIR = platform.get_package_dir("framework-espidf")
+FRAMEWORK_DIR = platform.get_package_dir("framework-N14")
 assert FRAMEWORK_DIR and isdir(FRAMEWORK_DIR)
 
 if "arduino" in env.subst("$PIOFRAMEWORK"):
     ARDUINO_FRAMEWORK_DIR = platform.get_package_dir(
-        "framework-arduinoespressif32")
+        "framework-N15")
     assert ARDUINO_FRAMEWORK_DIR and isdir(ARDUINO_FRAMEWORK_DIR)
 
 
@@ -550,7 +550,7 @@ env.Prepend(
     CPPDEFINES=[
         "WITH_POSIX",
         ("IDF_VER", '\\"%s\\"' %
-         platform.get_package_version("framework-espidf"))
+         platform.get_package_version("framework-N14"))
     ],
 
     CCFLAGS=[
