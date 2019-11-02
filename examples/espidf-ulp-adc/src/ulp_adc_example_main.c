@@ -1,12 +1,3 @@
-/* ULP Example
-
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
-
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include "esp_sleep.h"
@@ -37,10 +28,13 @@ static void start_ulp_program();
 void app_main()
 {
     esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
-    if (cause != ESP_SLEEP_WAKEUP_ULP) {
+    if (cause != ESP_SLEEP_WAKEUP_ULP) 
+    {
         printf("Not ULP wakeup\n");
         init_ulp_program();
-    } else {
+    } 
+    else 
+    {
         printf("Deep sleep wakeup\n");
         printf("ULP did %d measurements since last reset\n", ulp_sample_counter & UINT16_MAX);
         printf("Thresholds:  low=%d  high=%d\n", ulp_low_thr, ulp_high_thr);
@@ -68,7 +62,7 @@ static void init_ulp_program()
     adc1_ulp_enable();
 
     /* Set low and high thresholds, approx. 1.35V - 1.75V*/
-    ulp_low_thr = 1500;
+    ulp_low_thr = 45;
     ulp_high_thr = 2000;
 
     /* Set ULP wake up period to 20ms */
@@ -87,7 +81,6 @@ static void start_ulp_program()
 {
     /* Reset sample counter */
     ulp_sample_counter = 0;
-
     /* Start the program */
     esp_err_t err = ulp_run(&ulp_entry - RTC_SLOW_MEM);
     ESP_ERROR_CHECK(err);
