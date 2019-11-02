@@ -21,7 +21,9 @@
   },
   "frameworks": [
     "arduino",
-    "espidf"
+    "espidf",
+    "simba",
+    "pumbaa"
   ],
   "name": "Heltec WiFi LoRa 32 (V2)",
   "upload": {

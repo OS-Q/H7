@@ -20,7 +20,9 @@
   },
   "frameworks": [
     "arduino",
-    "espidf"
+    "espidf",
+    "simba",
+    "pumbaa"
   ],
   "name": "Espressif ESP32 Dev Module",
   "upload": {
