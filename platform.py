@@ -3,7 +3,7 @@ from os.path import isdir
 from platformio.managers.platform import PlatformBase
 
 
-class H7Platform(PlatformBase):
+class H07Platform(PlatformBase):
 
     def configure_default_packages(self, variables, targets):
         if "buildfs" in targets:
