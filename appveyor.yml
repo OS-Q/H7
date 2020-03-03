@@ -1,0 +1,25 @@
+build: off
+environment:
+
+  matrix:
+    - PLATFORMIO_PROJECT_DIR: "examples/arduino-blink"
+    - PLATFORMIO_PROJECT_DIR: "examples/arduino-wifiscan"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-arduino-blink"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-arduino-wifiscan"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-ble-adv"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-coap-server"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-exceptions"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-http-request"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-peripherals-uart"
+    - PLATFORMIO_PROJECT_DIR: "examples/espidf-storage-sdcard"
+    - PLATFORMIO_PROJECT_DIR: "examples/pumbaa-blink"
+    - PLATFORMIO_PROJECT_DIR: "examples/simba-blink"
+
+install:
+- cmd: git submodule update --init --recursive
+- cmd: SET PATH=C:\Python36\Scripts;%PATH%
+- cmd: pip3 install -U https://github.com/platformio/platformio/archive/develop.zip
+- cmd: platformio platform install file://.
+
+test_script:
+- cmd: platformio run -d %PLATFORMIO_PROJECT_DIR%

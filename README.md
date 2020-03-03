@@ -1,5 +1,8 @@
 ﻿# [Platform H07](https://github.com/OS-Q/H07)
 
+[![Build status](https://ci.appveyor.com/api/projects/status/7cly7p33jnotmgjv?svg=true)](https://ci.appveyor.com/project/Qitas/h07)
+[![Build Status](https://travis-ci.com/OS-Q/H07.svg?branch=master)](https://travis-ci.com/OS-Q/H07)
+
 [![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
 
 #### 关于系统架构：[OS-Q](https://github.com/OS-Q)
