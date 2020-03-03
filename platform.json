@@ -1,7 +1,7 @@
 {
   "name": "H07",
   "title": "H07",
-  "description": "H07:ESP32",
+  "description": "ESP32 platform",
   "url": "https://espressif.com/",
   "homepage": "https://www.OS-Q.com/H07",
   "license": "MIT",

@@ -5,6 +5,12 @@
     "f_cpu": "240000000L",
     "f_flash": "40000000L",
     "flash_mode": "dio",
+    "hwids": [
+      [
+        "0x0403",
+        "0x6010"
+      ]
+    ],
     "ldscript": "esp32_out.ld",
     "mcu": "esp32",
     "variant": "esp32"
@@ -24,14 +30,19 @@
     "simba",
     "pumbaa"
   ],
-  "name": "Espressif ESP32 Dev Module",
+  "name": "ESP32 Dev",
   "upload": {
     "flash_size": "4MB",
     "maximum_ram_size": 327680,
     "maximum_size": 4194304,
+    "protocols": [
+      "esptool",
+      "espota",
+      "ftdi"
+    ],
     "require_upload_port": true,
     "speed": 921600
   },
-  "url": "https://en.wikipedia.org/wiki/ESP32",
-  "vendor": "Espressif"
+  "url": "http://www.OS-Q.com/boards/H07/ESP32",
+  "vendor": "OS-Q"
 }
