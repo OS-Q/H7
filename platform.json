@@ -55,7 +55,7 @@
     "framework-N16": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/N16.git"
+      "version": ">=15.0.0"
     },
     "framework-N17": {
       "type": "framework",
