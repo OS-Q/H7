@@ -4,12 +4,12 @@
       "ldscript": "esp32_out.ld"
     },
     "core": "esp32",
-    "extra_flags": "-DARDUINO_NANO32",
+    "extra_flags": "-DARDUINO_D1_MINI32",
     "f_cpu": "240000000L",
     "f_flash": "40000000L",
     "flash_mode": "dio",
     "mcu": "esp32",
-    "variant": "nano32"
+    "variant": "d1_mini32"
   },
   "connectivity": [
     "wifi",
@@ -17,13 +17,14 @@
     "ethernet",
     "can"
   ],
+  "debug": {
+    "openocd_board": "esp-wroom-32.cfg"
+  },
   "frameworks": [
     "arduino",
-    "espidf",
-    "simba",
-    "pumbaa"
+    "espidf"
   ],
-  "name": "MakerAsia Nano32",
+  "name": "WeMos D1 MINI ESP32",
   "upload": {
     "flash_size": "4MB",
     "maximum_ram_size": 327680,
@@ -31,6 +32,6 @@
     "require_upload_port": true,
     "speed": 460800
   },
-  "url": "http://iot-bits.com/nano32-esp32-development-board",
-  "vendor": "MakerAsia"
+  "url": "https://www.wemos.cc",
+  "vendor": "WEMOS"
 }
