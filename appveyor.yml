@@ -11,7 +11,6 @@ environment:
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-ble-eddystone"
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-coap-server"
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-exceptions"
-    - PLATFORMIO_PROJECT_DIR: "examples/espidf-hello-world"
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-http-request"
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-peripherals-uart"
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-storage-sdcard"
