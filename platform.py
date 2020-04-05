@@ -1,6 +1,7 @@
 from os.path import isdir
 
 from platformio.managers.platform import PlatformBase
+from platformio.util import get_systype
 
 
 class H07Platform(PlatformBase):
@@ -12,6 +13,22 @@ class H07Platform(PlatformBase):
             self.packages['tool-openocd-esp32']['optional'] = False
         if isdir("ulp"):
             self.packages['toolchain-esp32ulp']['optional'] = False
+        if "espidf" in variables.get("pioframework", []):
+            for p in self.packages:
+                if p in ("tool-cmake", "tool-ninja", "toolchain-esp32ulp"):
+                    self.packages[p]['optional'] = False
+                elif p in ("tool-mconf", "tool-idf") and "windows" in get_systype():
+                    self.packages[p]['optional'] = False
+            self.packages['toolchain-xtensa32']['version'] = "~2.80200.0"
+
+        build_core = variables.get(
+            "board_build.core", self.board_config(variables.get("board")).get(
+                "build.core", "arduino")).lower()
+        if build_core == "mbcwb":
+            self.packages['framework-arduinoespressif32']['optional'] = True
+            self.packages['framework-arduino-mbcwb']['optional'] = False
+            self.packages['tool-mbctool']['type'] = "uploader"
+            self.packages['tool-mbctool']['optional'] = False
 
         return PlatformBase.configure_default_packages(self, variables,
                                                        targets)
@@ -88,16 +105,16 @@ class H07Platform(PlatformBase):
                 "init_break": "thb app_main",
                 "init_cmds": [
                     "define pio_reset_halt_target",
-                    "   mon reset halt",
+                    "   monitor reset halt",
                     "   flushregs",
                     "end",
-                    "define pio_reset_target",
-                    "   mon reset",
+                    "define pio_reset_run_target",
+                    "   monitor reset",
                     "end",
                     "target extended-remote $DEBUG_PORT",
-                    "$INIT_BREAK",
-                    "$LOAD_CMD",
-                    "pio_reset_halt_target"
+                    "$LOAD_CMDS",
+                    "pio_reset_halt_target",
+                    "$INIT_BREAK"
                 ],
                 "onboard": link in debug.get("onboard_tools", []),
                 "default": link == debug.get("default_tool")

@@ -5,8 +5,8 @@
 
 [![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
 
-### [Platform描述](https://github.com/OS-Q/H08/wiki) 
+### [Platform描述](https://github.com/OS-Q/H07/wiki) 
 
-[Platform H08](https://github.com/OS-Q/H08) 是基于PlatformIO开发平台的基础框架，用于在[ESP32](https://github.com/sochub/ESP32)硬件上开发应用
+[Platform H07](https://github.com/OS-Q/H07) 是基于PlatformIO开发平台的基础框架，用于在[ESP32](https://github.com/sochub/ESP32)硬件上开发应用
 
-### [OS-Q = Open Solutions | Open Source |  Operating System ](http://www.OS-Q.com/H08)
+### [OS-Q = Open Solutions | Open Source |  Operating System ](http://www.OS-Q.com/H07)
