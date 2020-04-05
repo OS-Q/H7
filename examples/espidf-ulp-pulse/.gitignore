@@ -1,4 +1,4 @@
-.pioenvs
-.piolibdeps
-.pio/
+*.db
+__pycache__/
 .vscode/
+.pio/
