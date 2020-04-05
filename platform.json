@@ -1,10 +1,10 @@
 {
   "name": "H07",
   "title": "H07",
-  "description": "ESP32 platform",
+  "description": "ESP32 WiFi SoC",
   "url": "https://espressif.com/",
   "homepage": "https://www.OS-Q.com/H07",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "engines": {
     "platformio": "<5"
   },
@@ -12,16 +12,18 @@
     "type": "git",
     "url": "https://github.com/OS-Q/H07.git"
   },
-  "version": "1.0.0",
+  "authors": [{
+    "name": "qitas",
+    "email": "qitas@qitas.cn",
+    "url": "https://www.qitas.cn"
+  }],
+  "keywords": "H07,ESP32,BLE,Wi-Fi",
+  "version": "1.12.0",
   "packageRepositories": [
     "http://182.61.61.133/link/toolchain/manifest.json",
     "http://182.61.61.133/link/framework/manifest.json",
     "http://182.61.61.133/link/platformio.json",
-    "http://182.61.61.133/link/platform.json",
-    "http://dl.platformio.org/packages/manifest.json",
-    "https://dl.bintray.com/platformio/dl-packages/manifest.json",
-    "https://raw.githubusercontent.com/eerimoq/simba/master/make/platformio/manifest.json",
-    "https://raw.githubusercontent.com/eerimoq/pumbaa/master/make/platformio/manifest.json"
+    "http://182.61.61.133/link/platform.json"
   ],
   "frameworks": {
     "espidf": {
@@ -74,6 +76,10 @@
     "tool-esptoolpy": {
       "type": "uploader",
       "version": "~1.20600.0"
+    }, 
+    "tool-mbctool": {
+      "optional": true,
+      "version": ">=2.0.0"
     },
     "tool-openocd-esp32": {
       "type": "debugger",
@@ -84,6 +90,22 @@
       "type": "uploader",
       "optional": true,
       "version": "~2.230.0"
+    },
+    "tool-cmake": {
+      "optional": true,
+      "version": "~3.16.0"
+    },
+    "tool-ninja": {
+      "optional": true,
+      "version": "^1.7.0"
+    },
+    "tool-mconf": {
+      "optional": true,
+      "version": "~1.4060000.0"
+    },
+    "tool-idf": {
+      "optional": true,
+      "version": "~1.0.1"
     }
   }
 }
