@@ -1,88 +1,161 @@
+import shutil
 from os import SEEK_CUR, SEEK_END
 from os.path import basename, isfile, join
 
 from SCons.Script import Builder
 
-from platformio.util import cd
-
 Import("env")
 
+board = env.BoardConfig()
 
 #
-# TXT files helpers
+# Embedded files helpers
 #
 
 
-def prepare_files(files):
-    if not files:
-        return
+def extract_files(cppdefines, files_type):
+    files = []
+    if "build." + files_type in board:
+        files.extend(
+            [
+                join("$PROJECT_DIR", f)
+                for f in board.get("build." + files_type, "").split()
+                if f
+            ]
+        )
+    else:
+        files_define = "COMPONENT_" + files_type.upper()
+        for define in cppdefines:
+            if files_define not in define:
+                continue
 
-    for f in files:
-        with open(env.subst(f), "rb+") as fp:
-            fp.seek(-1, SEEK_END)
-            if fp.read(1) != '\0':
-                fp.seek(0, SEEK_CUR)
-                fp.write(b'\0')
-
-
-def extract_files(cppdefines):
-    for define in cppdefines:
-        if "COMPONENT_EMBED_TXTFILES" not in define:
-            continue
-
-        if not isinstance(define, tuple):
-            print("Warning! COMPONENT_EMBED_TXTFILES macro cannot be empty!")
-            return []
-
-        with cd(env.subst("$PROJECT_DIR")):
             value = define[1]
-            if not isinstance(value, str):
-                print("Warning! COMPONENT_EMBED_TXTFILES macro must contain "
-                      "a list of files separated by ':'")
+            if not isinstance(define, tuple):
+                print("Warning! %s macro cannot be empty!" % files_define)
                 return []
 
-            result = []
-            for f in value.split(':'):
-                if not isfile(f):
-                    print("Warning! Could not find file %s" % f)
+            if not isinstance(value, str):
+                print(
+                    "Warning! %s macro must contain "
+                    "a list of files separated by ':'" % files_define
+                )
+                return []
+
+            for f in value.split(":"):
+                if not f:
                     continue
-                result.append(join("$PROJECT_DIR", f))
+                files.append(join("$PROJECT_DIR", f))
 
-            return result
+    for f in files:
+        if not isfile(env.subst(f)):
+            print('Warning! Could not find file "%s"' % basename(f))
+
+    return files
 
 
-def remove_config_define(cppdefines):
+def remove_config_define(cppdefines, files_type):
     for define in cppdefines:
-        if "COMPONENT_EMBED_TXTFILES" in define:
+        if files_type in define:
             env.ProcessUnFlags("-D%s" % "=".join(str(d) for d in define))
             return
 
 
-def embed_files(files):
+def prepare_file(source, target, env):
+    filepath = source[0].get_abspath()
+    shutil.copy(filepath, filepath + ".piobkp")
+
+    with open(filepath, "rb+") as fp:
+        fp.seek(-1, SEEK_END)
+        if fp.read(1) != "\0":
+            fp.seek(0, SEEK_CUR)
+            fp.write(b"\0")
+
+
+def revert_original_file(source, target, env):
+    filepath = source[0].get_abspath()
+    if isfile(filepath + ".piobkp"):
+        shutil.move(filepath + ".piobkp", filepath)
+
+
+def embed_files(files, files_type):
     for f in files:
         filename = basename(f) + ".txt.o"
         file_target = env.TxtToBin(join("$BUILD_DIR", filename), f)
         env.Depends("$PIOMAINPROG", file_target)
-        env.Append(PIOBUILDFILES=[env.File(join("$BUILD_DIR", filename))])
+        if files_type == "embed_txtfiles":
+            env.AddPreAction(file_target, prepare_file)
+            env.AddPostAction(file_target, revert_original_file)
+        env.AppendUnique(PIOBUILDFILES=[env.File(join("$BUILD_DIR", filename))])
 
+
+def transform_to_asm(target, source, env):
+    return [join("$BUILD_DIR", s.name + ".S") for s in source], source
 
 env.Append(
     BUILDERS=dict(
         TxtToBin=Builder(
-            action=env.VerboseAction(" ".join([
-                "xtensa-esp32-elf-objcopy",
-                "--input-target", "binary",
-                "--output-target", "elf32-xtensa-le",
-                "--binary-architecture", "xtensa",
-                "--rename-section", ".data=.rodata.embedded",
-                "$SOURCE", "$TARGET"
-            ]), "Converting $TARGET"),
-            suffix=".txt.o"))
+            action=env.VerboseAction(
+                " ".join(
+                    [
+                        "xtensa-esp32-elf-objcopy",
+                        "--input-target",
+                        "binary",
+                        "--output-target",
+                        "elf32-xtensa-le",
+                        "--binary-architecture",
+                        "xtensa",
+                        "--rename-section",
+                        ".data=.rodata.embedded",
+                        "$SOURCE",
+                        "$TARGET",
+                    ]
+                ),
+                "Converting $TARGET",
+            ),
+            suffix=".txt.o",
+        ),
+        TxtToAsm=Builder(
+            action=env.VerboseAction(
+                " ".join(
+                    [
+                        join(
+                            env.PioPlatform().get_package_dir("tool-cmake") or "",
+                            "bin",
+                            "cmake",
+                        ),
+                        "-DDATA_FILE=$SOURCE",
+                        "-DSOURCE_FILE=$TARGET",
+                        "-DFILE_TYPE=TEXT",
+                        "-P",
+                        join(
+                            env.PioPlatform().get_package_dir("framework-N14") or "",
+                            "tools",
+                            "cmake",
+                            "scripts",
+                            "data_file_embed_asm.cmake",
+                        ),
+                    ]
+                ),
+                "Generating assembly for $TARGET",
+            ),
+            emitter=transform_to_asm,
+            single_source=True
+        ),
+    )
 )
 
+
 flags = env.get("CPPDEFINES")
-if "COMPONENT_EMBED_TXTFILES" in env.Flatten(flags):
-    files = extract_files(flags)
-    prepare_files(files)
-    embed_files(files)
-    remove_config_define(flags)
+for files_type in ("embed_txtfiles", "embed_files"):
+    if (
+        "COMPONENT_" + files_type.upper() not in env.Flatten(flags)
+        and "build." + files_type not in board
+    ):
+        continue
+
+    files = extract_files(flags, files_type)
+    if "espidf" in env.subst("$PIOFRAMEWORK"):
+        env.Requires(join("$BUILD_DIR", "${PROGNAME}.elf"), env.TxtToAsm(files))
+    else:
+        embed_files(files, files_type)
+        remove_config_define(flags, files_type)

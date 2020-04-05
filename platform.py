@@ -25,7 +25,7 @@ class H07Platform(PlatformBase):
             "board_build.core", self.board_config(variables.get("board")).get(
                 "build.core", "arduino")).lower()
         if build_core == "mbcwb":
-            self.packages['framework-arduinoespressif32']['optional'] = True
+            self.packages['framework-N15']['optional'] = True
             self.packages['framework-arduino-mbcwb']['optional'] = False
             self.packages['tool-mbctool']['type'] = "uploader"
             self.packages['tool-mbctool']['optional'] = False
