@@ -4,7 +4,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class H07Platform(PlatformBase):
+class P03Platform(PlatformBase):
 
     def configure_default_packages(self, variables, targets):
         if "buildfs" in targets:
@@ -31,7 +31,7 @@ class H07Platform(PlatformBase):
             self.packages['tool-mbctool']['optional'] = False
 
         return PlatformBase.configure_default_packages(self, variables,
-                                                       targets)
+                                                        targets)
 
     def get_boards(self, id_=None):
         result = PlatformBase.get_boards(self, id_)

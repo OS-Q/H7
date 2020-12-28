@@ -1,23 +1,23 @@
 {
-  "name": "H07",
-  "title": "H07",
+  "name": "P03",
+  "title": "Platform 03",
   "description": "ESP32 WiFi SoC",
   "url": "https://espressif.com/",
-  "homepage": "https://www.OS-Q.com/H07",
+  "homepage": "https://www.OS-Q.com/P03",
   "license": "Apache-2.0",
   "engines": {
-    "platformio": "<5"
+    "platformio": "^5"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/H07.git"
+    "url": "https://github.com/OS-Q/P03.git"
   },
   "authors": [{
     "name": "qitas",
     "email": "qitas@qitas.cn",
     "url": "https://www.qitas.cn"
   }],
-  "keywords": "H07,ESP32,BLE,Wi-Fi",
+  "keywords": "P03,ESP32,BLE,Wi-Fi",
   "version": "1.12.0",
   "packageRepositories": [
     "http://182.61.61.133/link/toolchain/manifest.json",
@@ -82,7 +82,7 @@
     "tool-esptoolpy": {
       "type": "uploader",
       "version": "~1.20600.0"
-    }, 
+    },
     "tool-mbctool": {
       "optional": true,
       "version": ">=2.0.0"

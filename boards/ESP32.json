@@ -39,6 +39,6 @@
     "require_upload_port": true,
     "speed": 921600
   },
-  "url": "http://www.OS-Q.com/boards/H07/ESP32",
+  "url": "http://www.OS-Q.com/boards/P03/ESP32",
   "vendor": "OS-Q"
 }
