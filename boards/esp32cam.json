@@ -23,9 +23,7 @@
   },
   "frameworks": [
     "arduino",
-    "espidf",
-    "simba",
-    "pumbaa"
+    "espidf"
   ],
   "name": "AI Thinker ESP32-CAM",
   "upload": {

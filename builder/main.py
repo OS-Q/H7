@@ -1,3 +1,17 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import re
 import sys
 from os.path import isfile, join
@@ -114,22 +128,24 @@ def __fetch_spiffs_size(target, source, env):
 
 
 env = DefaultEnvironment()
+env.SConscript("compat.py", exports="env")
 platform = env.PioPlatform()
 board = env.BoardConfig()
+mcu = board.get("build.mcu", "esp32")
 
 env.Replace(
     __get_board_f_flash=_get_board_f_flash,
     __get_board_flash_mode=_get_board_flash_mode,
 
-    AR="xtensa-esp32-elf-ar",
-    AS="xtensa-esp32-elf-as",
-    CC="xtensa-esp32-elf-gcc",
-    CXX="xtensa-esp32-elf-g++",
-    GDB="xtensa-esp32-elf-gdb",
+    AR="xtensa-%s-elf-ar" % mcu,
+    AS="xtensa-%s-elf-as" % mcu,
+    CC="xtensa-%s-elf-gcc" % mcu,
+    CXX="xtensa-%s-elf-g++" % mcu,
+    GDB="xtensa-%s-elf-gdb" % mcu,
     OBJCOPY=join(
         platform.get_package_dir("tool-esptoolpy") or "", "esptool.py"),
-    RANLIB="xtensa-esp32-elf-ranlib",
-    SIZETOOL="xtensa-esp32-elf-size",
+    RANLIB="xtensa-%s-elf-ranlib" % mcu,
+    SIZETOOL="xtensa-%s-elf-size" % mcu,
 
     ARFLAGS=["rc"],
 
@@ -139,13 +155,16 @@ env.Replace(
     SIZEPRINTCMD="$SIZETOOL -B -d $SOURCES",
 
     ERASEFLAGS=[
-        "--chip", "esp32",
+        "--chip", mcu,
         "--port", '"$UPLOAD_PORT"'
     ],
     ERASECMD='"$PYTHONEXE" "$OBJCOPY" $ERASEFLAGS erase_flash',
 
     MKSPIFFSTOOL="mkspiffs_${PIOPLATFORM}_" + ("espidf" if "espidf" in env.subst(
         "$PIOFRAMEWORK") else "${PIOFRAMEWORK}"),
+    ESP32_SPIFFS_IMAGE_NAME=env.get("ESP32_SPIFFS_IMAGE_NAME", "spiffs"),
+    ESP32_APP_OFFSET="0x10000",
+
     PROGSUFFIX=".elf"
 )
 
@@ -161,7 +180,7 @@ env.Append(
         ElfToBin=Builder(
             action=env.VerboseAction(" ".join([
                 '"$PYTHONEXE" "$OBJCOPY"',
-                "--chip", "esp32",
+                "--chip", mcu,
                 "elf2image",
                 "--flash_mode", "$BOARD_FLASH_MODE",
                 "--flash_freq", "${__get_board_f_flash(__env__)}",
@@ -193,24 +212,26 @@ if not env.get("PIOFRAMEWORK"):
 # Target: Build executable and linkable firmware or SPIFFS image
 #
 
-target_elf = env.BuildProgram()
+target_elf = None
 if "nobuild" in COMMAND_LINE_TARGETS:
     target_elf = join("$BUILD_DIR", "${PROGNAME}.elf")
     if set(["uploadfs", "uploadfsota"]) & set(COMMAND_LINE_TARGETS):
         fetch_spiffs_size(env)
-        target_firm = join("$BUILD_DIR", "spiffs.bin")
+        target_firm = join("$BUILD_DIR", "${ESP32_SPIFFS_IMAGE_NAME}.bin")
     else:
         target_firm = join("$BUILD_DIR", "${PROGNAME}.bin")
 else:
+    target_elf = env.BuildProgram()
     if set(["buildfs", "uploadfs", "uploadfsota"]) & set(COMMAND_LINE_TARGETS):
         target_firm = env.DataToBin(
-            join("$BUILD_DIR", "spiffs"), "$PROJECTDATA_DIR")
+            join("$BUILD_DIR", "${ESP32_SPIFFS_IMAGE_NAME}"), "$PROJECTDATA_DIR")
+        env.NoCache(target_firm)
         AlwaysBuild(target_firm)
-        AlwaysBuild(env.Alias("buildfs", target_firm))
     else:
         target_firm = env.ElfToBin(
             join("$BUILD_DIR", "${PROGNAME}"), target_elf)
 
+env.AddPlatformTarget("buildfs", target_firm, None, "Build Filesystem Image")
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
 
@@ -229,10 +250,13 @@ elif set(["checkprogsize", "upload"]) & set(COMMAND_LINE_TARGETS):
 # Target: Print binary size
 #
 
-target_size = env.Alias("size", target_elf,
-                        env.VerboseAction("$SIZEPRINTCMD",
-                                          "Calculating size $SOURCE"))
-AlwaysBuild(target_size)
+target_size = env.AddPlatformTarget(
+    "size",
+    target_elf,
+    env.VerboseAction("$SIZEPRINTCMD", "Calculating size $SOURCE"),
+    "Program Size",
+    "Calculate program size",
+)
 
 #
 # Target: Upload firmware or SPIFFS image
@@ -263,7 +287,7 @@ if upload_protocol == "espota":
             "espressif32.html#over-the-air-ota-update\n")
     env.Replace(
         UPLOADER=join(
-            platform.get_package_dir("framework-N15") or "",
+            platform.get_package_dir("framework-arduinoespressif32") or "",
             "tools", "espota.py"),
         UPLOADERFLAGS=["--debug", "--progress", "-i", "$UPLOAD_PORT"],
         UPLOADCMD='"$PYTHONEXE" "$UPLOADER" $UPLOADERFLAGS -f $SOURCE'
@@ -277,7 +301,7 @@ elif upload_protocol == "esptool":
         UPLOADER=join(
             platform.get_package_dir("tool-esptoolpy") or "", "esptool.py"),
         UPLOADERFLAGS=[
-            "--chip", "esp32",
+            "--chip", mcu,
             "--port", '"$UPLOAD_PORT"',
             "--baud", "$UPLOAD_SPEED",
             "--before", "default_reset",
@@ -287,7 +311,7 @@ elif upload_protocol == "esptool":
             "--flash_freq", "${__get_board_f_flash(__env__)}",
             "--flash_size", "detect"
         ],
-        UPLOADCMD='"$PYTHONEXE" "$UPLOADER" $UPLOADERFLAGS 0x10000 $SOURCE'
+        UPLOADCMD='"$PYTHONEXE" "$UPLOADER" $UPLOADERFLAGS $ESP32_APP_OFFSET $SOURCE'
     )
     for image in env.get("FLASH_EXTRA_IMAGES", []):
         env.Append(UPLOADERFLAGS=[image[0], env.subst(image[1])])
@@ -295,7 +319,7 @@ elif upload_protocol == "esptool":
     if "uploadfs" in COMMAND_LINE_TARGETS:
         env.Replace(
             UPLOADERFLAGS=[
-                "--chip", "esp32",
+                "--chip", mcu,
                 "--port", '"$UPLOAD_PORT"',
                 "--baud", "$UPLOAD_SPEED",
                 "--before", "default_reset",
@@ -325,15 +349,15 @@ elif upload_protocol == "mbctool":
             "--port", '"$UPLOAD_PORT"',
             "--upload",
             "0x1000", join(
-                platform.get_package_dir("framework-arduino-mbcwb"), 
+                platform.get_package_dir("framework-arduino-mbcwb"),
                 "tools", "sdk", "bin", "bootloader_qio_80m.bin"),
             "0x8000", join("$BUILD_DIR", "partitions.bin"),
             "0xe000", join(
-                platform.get_package_dir("framework-arduino-mbcwb"), 
+                platform.get_package_dir("framework-arduino-mbcwb"),
                 "tools", "partitions", "boot_app0.bin"),
             "0x10000", join("$BUILD_DIR", "${PROGNAME}.bin"),
         ],
-        UPLOADCMD='"$UPLOADER" $UPLOADERFLAGS'       
+        UPLOADCMD='"$UPLOADER" $UPLOADERFLAGS'
     )
     upload_actions = [
         env.VerboseAction(env.AutodetectUploadPort,
@@ -348,13 +372,13 @@ elif upload_protocol in debug_tools:
         debug_tools.get(upload_protocol).get("server").get("arguments", []))
     openocd_args.extend([
         "-c",
-        "program_esp32 {{$SOURCE}} %s verify" %
-        board.get("upload.offset_address", "0x10000")
+        "program_esp {{$SOURCE}} %s verify" %
+        board.get("upload.offset_address", "$ESP32_APP_OFFSET")
     ])
     for image in env.get("FLASH_EXTRA_IMAGES", []):
         openocd_args.extend([
             "-c",
-            'program_esp32 {{%s}} %s verify' %
+            'program_esp {{%s}} %s verify' %
             (_to_unix_slashes(image[1]), image[0])
         ])
     openocd_args.extend(["-c", "reset run; shutdown"])
@@ -377,18 +401,24 @@ elif upload_protocol == "custom":
 else:
     sys.stderr.write("Warning! Unknown upload protocol %s\n" % upload_protocol)
 
-AlwaysBuild(env.Alias(["upload", "uploadfs"], target_firm, upload_actions))
+env.AddPlatformTarget("upload", target_firm, upload_actions, "Upload")
+env.AddPlatformTarget("uploadfs", target_firm, upload_actions, "Upload Filesystem Image")
+env.AddPlatformTarget(
+    "uploadfsota", target_firm, upload_actions, "Upload Filesystem Image OTA")
 
 #
 # Target: Erase Flash
 #
 
-AlwaysBuild(
-    env.Alias("erase", None, [
-        env.VerboseAction(env.AutodetectUploadPort,
-                          "Looking for serial port..."),
+env.AddPlatformTarget(
+    "erase",
+    None,
+    [
+        env.VerboseAction(env.AutodetectUploadPort, "Looking for serial port..."),
         env.VerboseAction("$ERASECMD", "Erasing...")
-    ]))
+    ],
+    "Erase Flash",
+)
 
 #
 # Information about obsolete method of specifying linker scripts

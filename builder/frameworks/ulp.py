@@ -1,23 +1,36 @@
-import os
-import sys
+# Copyright 2020-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-from SCons.Script import COMMAND_LINE_TARGETS, Import, Return
+import os
+
+from SCons.Script import Import
 
 from platformio.util import get_systype
 from platformio.proc import where_is_program
 
-Import("env project_config")
+Import("env project_config idf_variant")
 
 ulp_env = env.Clone()
 platform = ulp_env.PioPlatform()
-FRAMEWORK_DIR = platform.get_package_dir("framework-N14")
+FRAMEWORK_DIR = platform.get_package_dir("framework-espidf")
 BUILD_DIR = ulp_env.subst("$BUILD_DIR")
 ULP_BUILD_DIR = os.path.join(
     BUILD_DIR, "esp-idf", project_config["name"].replace("__idf_", ""), "ulp_main")
 
 
 def prepare_ulp_env_vars(env):
-    ulp_env.PrependENVPath("IDF_PATH", platform.get_package_dir("framework-N14"))
+    ulp_env.PrependENVPath("IDF_PATH", platform.get_package_dir("framework-espidf"))
 
     additional_packages = [
         os.path.join(platform.get_package_dir("toolchain-xtensa32"), "bin"),
@@ -61,11 +74,11 @@ def generate_ulp_config(target_config):
         "-DCMAKE_GENERATOR=Ninja",
         "-DCMAKE_TOOLCHAIN_FILE="
         + os.path.join(
-            platform.get_package_dir("framework-N14"),
+            platform.get_package_dir("framework-espidf"),
             "components",
             "ulp",
             "cmake",
-            "toolchain-ulp.cmake",
+            "toolchain-%s-ulp.cmake" % idf_variant,
         ),
         '-DULP_S_SOURCES="%s"' % ";".join(ulp_sources),
         "-DULP_APP_NAME=ulp_main",
@@ -73,7 +86,7 @@ def generate_ulp_config(target_config):
         '-DCOMPONENT_INCLUDES="%s"' % ";".join(get_component_includes(target_config)),
         "-DIDF_PATH=" + FRAMEWORK_DIR,
         "-DSDKCONFIG=" + os.path.join(BUILD_DIR, "config", "sdkconfig.h"),
-        "-DPYTHON=python",
+        "-DPYTHON=" + env.subst("$PYTHONEXE"),
         "-GNinja",
         "-B",
         ULP_BUILD_DIR,
