@@ -6,7 +6,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class P03Platform(PlatformBase):
+class P16Platform(PlatformBase):
 
     def configure_default_packages(self, variables, targets):
         if not variables.get("board"):
@@ -48,7 +48,7 @@ class P03Platform(PlatformBase):
             self.packages['tool-mbctool']['optional'] = False
 
         return PlatformBase.configure_default_packages(self, variables,
-                                                       targets)
+                                                        targets)
 
     def get_boards(self, id_=None):
         result = PlatformBase.get_boards(self, id_)

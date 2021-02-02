@@ -1,4 +1,4 @@
-name: P03
+name: P16
 
 on: [push, pull_request]
 
@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-16.04, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [3.7]
         example:
           - "examples/arduino-blink"
@@ -27,6 +27,7 @@ jobs:
           - "examples/espidf-ulp-pulse"
           - "examples/pumbaa-blink"
           - "examples/simba-blink"
+
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
