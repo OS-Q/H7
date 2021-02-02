@@ -5,6 +5,7 @@
   "homepage": "https://espressif.com/",
   "license": "Apache-2.0",
   "keywords": [
+    "OS-Q",
     "dev-platform",
     "Wi-Fi",
     "Bluetooth",
@@ -28,7 +29,6 @@
       "package": "framework-espidf",
       "script": "builder/frameworks/espidf.py",
       "description": "ESP-IDF is the official development framework for the ESP32 and ESP32-S Series SoCs.",
-      "homepage": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/",
       "title": "Espressif IoT Development Framework"
     },
     "simba": {

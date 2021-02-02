@@ -1,6 +1,6 @@
 ﻿# [Platform P16](https://github.com/OS-Q/P16)
 
-[![Build Status](https://github.com/OS-Q/P15/workflows/P16/badge.svg)](https://github.com/OS-Q/P16/actions)
+[![Build Status](https://github.com/OS-Q/P16/workflows/P16/badge.svg)](https://github.com/OS-Q/P16/actions)
 
 ### [简介](https://github.com/OS-Q/P16/wiki)
 
