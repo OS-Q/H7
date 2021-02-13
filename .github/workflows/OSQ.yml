@@ -1,4 +1,4 @@
-name: P16
+name: P52
 
 on: [push, pull_request]
 
