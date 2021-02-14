@@ -1,17 +1,3 @@
-# Copyright 2020-present PlatformIO <contact@platformio.org>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 """
 Espressif IDF
 
@@ -47,7 +33,7 @@ board = env.BoardConfig()
 mcu = board.get("build.mcu", "esp32")
 idf_variant = mcu.lower()
 
-FRAMEWORK_DIR = platform.get_package_dir("framework-espidf")
+FRAMEWORK_DIR = platform.get_package_dir("N52")
 TOOLCHAIN_DIR = platform.get_package_dir(
     "toolchain-xtensa%s" % ("32s2" if mcu == "esp32s2" else "32")
 )
@@ -829,7 +815,7 @@ def create_version_file():
     version_file = os.path.join(FRAMEWORK_DIR, "version.txt")
     if not os.path.isfile(version_file):
         with open(version_file, "w") as fp:
-            fp.write(platform.get_package_version("framework-espidf"))
+            fp.write(platform.get_package_version("N52"))
 
 
 def generate_empty_partition_image(binary_path, image_size):

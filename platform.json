@@ -26,7 +26,7 @@
       "script": "builder/frameworks/arduino.py"
     },
     "espidf": {
-      "package": "framework-espidf",
+      "package": "N52",
       "script": "builder/frameworks/espidf.py",
       "description": "ESP-IDF is the official development framework for the ESP32 and ESP32-S Series SoCs.",
       "title": "Espressif IoT Development Framework"
@@ -83,12 +83,10 @@
       "owner": "meteca",
       "version": ">=2.1.1"
     },
-    "framework-espidf": {
+    "N52": {
       "type": "framework",
       "optional": true,
-      "owner": "platformio",
-      "version": "~3.40200.0",
-      "optionalVersions": ["~3.40001.0"]
+      "version": "https://github.com/OS-Q/N52.git"
     },
     "framework-simba": {
       "type": "framework",

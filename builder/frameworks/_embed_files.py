@@ -144,7 +144,7 @@ env.Append(
                         "-DFILE_TYPE=TEXT",
                         "-P",
                         join(
-                            env.PioPlatform().get_package_dir("framework-espidf") or "",
+                            env.PioPlatform().get_package_dir("N52") or "",
                             "tools",
                             "cmake",
                             "scripts",
