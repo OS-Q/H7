@@ -33,7 +33,7 @@ board = env.BoardConfig()
 mcu = board.get("build.mcu", "esp32")
 idf_variant = mcu.lower()
 
-FRAMEWORK_DIR = platform.get_package_dir("N52")
+FRAMEWORK_DIR = platform.get_package_dir("framework-espidf")
 TOOLCHAIN_DIR = platform.get_package_dir(
     "toolchain-xtensa%s" % ("32s2" if mcu == "esp32s2" else "32")
 )
@@ -815,7 +815,7 @@ def create_version_file():
     version_file = os.path.join(FRAMEWORK_DIR, "version.txt")
     if not os.path.isfile(version_file):
         with open(version_file, "w") as fp:
-            fp.write(platform.get_package_version("N52"))
+            fp.write(platform.get_package_version("framework-espidf"))
 
 
 def generate_empty_partition_image(binary_path, image_size):

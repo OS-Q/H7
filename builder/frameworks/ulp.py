@@ -9,7 +9,7 @@ Import("env project_config idf_variant")
 
 ulp_env = env.Clone()
 platform = ulp_env.PioPlatform()
-FRAMEWORK_DIR = platform.get_package_dir("N52")
+FRAMEWORK_DIR = platform.get_package_dir("framework-espidf")
 BUILD_DIR = ulp_env.subst("$BUILD_DIR")
 ULP_BUILD_DIR = os.path.join(
     BUILD_DIR, "esp-idf", project_config["name"].replace("__idf_", ""), "ulp_main"
