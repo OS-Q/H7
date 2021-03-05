@@ -16,11 +16,12 @@ env:
   - PLATFORMIO_PROJECT_DIR=examples/simba-blink
 
 install:
+  - git submodule update --init --recursive
   - pip install -U https://github.com/OS-Q/S03/archive/master.zip
-  - platformio platform install file://.
+  - qio platform install file://.
 
 script:
-  - platformio run -d $PLATFORMIO_PROJECT_DIR
+  - qio run -d $PLATFORMIO_PROJECT_DIR
 
 notifications:
   email: false

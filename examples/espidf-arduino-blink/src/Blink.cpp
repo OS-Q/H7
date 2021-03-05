@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -9,8 +8,7 @@
 /* Can run 'make menuconfig' to choose the GPIO to blink,
    or you can edit the following line and set a number here.
 */
-
-#define BLINK_GPIO  (gpio_num_t)CONFIG_BLINK_GPIO
+#define BLINK_GPIO (gpio_num_t)CONFIG_BLINK_GPIO
 
 #ifndef LED_BUILTIN
 #define LED_BUILTIN 4
