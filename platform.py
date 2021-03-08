@@ -27,7 +27,7 @@ class P52Platform(PlatformBase):
                 elif p in ("tool-mconf", "tool-idf") and "windows" in get_systype():
                     self.packages[p]["optional"] = False
             self.packages["toolchain-xtensa32"]["version"] = "~2.80400.0"
-            if "arduino" in frameworks:
+            # if "arduino" in frameworks:
                 # Arduino component is not compatible with ESP-IDF >=4.1
                 # self.packages["E52"]["version"] = "~3.40001.0"
         # ESP32-S2 toolchain is identical for both Arduino and ESP-IDF

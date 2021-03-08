@@ -3,15 +3,10 @@ python:
   - "3.7"
 
 env:
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-blink
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-briki-internal-libs
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-wifiscan
   - PLATFORMIO_PROJECT_DIR=examples/espidf-arduino-blink
   - PLATFORMIO_PROJECT_DIR=examples/espidf-arduino-wifiscan
   - PLATFORMIO_PROJECT_DIR=examples/espidf-exceptions
   - PLATFORMIO_PROJECT_DIR=examples/espidf-peripherals-uart
-  - PLATFORMIO_PROJECT_DIR=examples/espidf-ulp-adc
-  - PLATFORMIO_PROJECT_DIR=examples/espidf-ulp-pulse
   - PLATFORMIO_PROJECT_DIR=examples/pumbaa-blink
   - PLATFORMIO_PROJECT_DIR=examples/simba-blink
 
