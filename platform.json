@@ -77,11 +77,10 @@
       "optional": true,
       "version": "https://github.com/OS-Q/A52.git"
     },
-    "framework-arduino-mbcwb": {
+    "A52B": {
       "type": "framework",
       "optional": true,
-      "owner": "meteca",
-      "version": ">=2.1.1"
+      "version": "https://github.com/OS-Q/A52B.git"
     },
     "framework-espidf": {
       "type": "framework",

@@ -41,7 +41,7 @@ class P52Platform(PlatformBase):
         ).lower()
         if build_core == "mbcwb":
             self.packages["A52"]["optional"] = True
-            self.packages["framework-arduino-mbcwb"]["optional"] = False
+            self.packages["A52B"]["optional"] = False
             self.packages["tool-mbctool"]["type"] = "uploader"
             self.packages["tool-mbctool"]["optional"] = False
 

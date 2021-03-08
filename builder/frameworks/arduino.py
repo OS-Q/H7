@@ -21,7 +21,7 @@ SConscript("_embed_files.py", exports="env")
 if build_core == "mbcwb":
     SConscript(
         join(DefaultEnvironment().PioPlatform().get_package_dir(
-            "framework-arduino-mbcwb"), "tools", "platformio-esp-build.py"))
+            "A52B"), "tools", "esp-build.py"))
 
 elif "espidf" not in env.subst("$PIOFRAMEWORK"):
     SConscript(
