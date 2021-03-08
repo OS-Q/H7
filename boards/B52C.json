@@ -4,12 +4,12 @@
       "ldscript": "esp32_out.ld"
     },
     "core": "esp32",
-    "extra_flags": "-DARDUINO_ESP32_PICO",
+    "extra_flags": "-DARDUINO_D1_MINI32",
     "f_cpu": "240000000L",
     "f_flash": "40000000L",
     "flash_mode": "dio",
     "mcu": "esp32",
-    "variant": "pico32"
+    "variant": "d1_mini32"
   },
   "connectivity": [
     "wifi",
@@ -24,7 +24,7 @@
     "arduino",
     "espidf"
   ],
-  "name": "ESP32 Pico Kit",
+  "name": "B52C",
   "upload": {
     "flash_size": "4MB",
     "maximum_ram_size": 327680,
@@ -32,6 +32,6 @@
     "require_upload_port": true,
     "speed": 460800
   },
-  "url": "http://esp-idf.readthedocs.io/en/latest/get-started/get-started-pico-kit.html",
-  "vendor": "Espressif"
+  "url": "https://www.wemos.cc",
+  "vendor": "WEMOS"
 }
