@@ -274,7 +274,7 @@ if upload_protocol == "espota":
             "espressif32.html#over-the-air-ota-update\n")
     env.Replace(
         UPLOADER=join(
-            platform.get_package_dir("A52") or "",
+            platform.get_package_dir("A52A") or "",
             "tools", "espota.py"),
         UPLOADERFLAGS=["--debug", "--progress", "-i", "$UPLOAD_PORT"],
         UPLOADCMD='"$PYTHONEXE" "$UPLOADER" $UPLOADERFLAGS -f $SOURCE'

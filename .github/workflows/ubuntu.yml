@@ -20,9 +20,6 @@ jobs:
       matrix:
         python-version: [3.7]
         examples:
-          - "examples/arduino-blink"
-          - "examples/arduino-briki-internal-libs"
-          - "examples/arduino-wifiscan"
           - "examples/espidf-arduino-blink"
           - "examples/espidf-arduino-wifiscan"
           - "examples/espidf-exceptions"

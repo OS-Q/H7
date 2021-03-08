@@ -22,7 +22,7 @@
   },
   "frameworks": {
     "arduino": {
-      "package": "A52",
+      "package": "A52A",
       "script": "builder/frameworks/arduino.py"
     },
     "espidf": {
@@ -72,10 +72,10 @@
       "owner": "platformio",
       "version": "~1.22851.0"
     },
-    "A52": {
+    "A52A": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/A52.git"
+      "version": "https://github.com/OS-Q/A52A.git"
     },
     "A52B": {
       "type": "framework",

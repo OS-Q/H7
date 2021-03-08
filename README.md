@@ -18,7 +18,7 @@
 
 #### 关联工程
 
-* [A52](https://github.com/OS-Q/A52)
+* [A52A](https://github.com/OS-Q/A52A)
 * [N52](https://github.com/OS-Q/N52)
 * [B52](https://github.com/OS-Q/B52)
 * [T52](https://github.com/OS-Q/T52)
