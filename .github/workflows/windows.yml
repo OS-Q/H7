@@ -24,8 +24,6 @@ jobs:
           - "examples/espidf-arduino-wifiscan"
           - "examples/espidf-exceptions"
           - "examples/espidf-peripherals-uart"
-          - "examples/espidf-ulp-adc"
-          - "examples/espidf-ulp-pulse"
           - "examples/pumbaa-blink"
           - "examples/simba-blink"
 
