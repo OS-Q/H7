@@ -1,9 +1,3 @@
-/*
- * Blink
- * Turns on an LED on for one second,
- * then off for one second, repeatedly.
- */
-
 #include <Arduino.h>
 
 // Set LED_BUILTIN if it is not defined by Arduino framework
