@@ -43,7 +43,7 @@ def _parse_partitions(env):
     partitions_csv = env.subst("$PARTITIONS_TABLE_CSV")
     if not isfile(partitions_csv):
         sys.stderr.write("Could not find the file %s with partitions "
-                         "table.\n" % partitions_csv)
+                        "table.\n" % partitions_csv)
         env.Exit(1)
         return
 
@@ -67,7 +67,7 @@ def _parse_partitions(env):
             }
             result.append(partition)
             next_offset = (_parse_size(partition['offset']) +
-                           _parse_size(partition['size']))
+                            _parse_size(partition['size']))
     return result
 
 
