@@ -13,10 +13,10 @@ env:
 install:
   - git submodule update --init --recursive
   - pip install -U https://github.com/OS-Q/S03/archive/master.zip
-  - qio platform install file://.
+  - pio platform install file://.
 
 script:
-  - qio run -d $PLATFORMIO_PROJECT_DIR
+  - pio run -d $PLATFORMIO_PROJECT_DIR
 
 notifications:
   email: false

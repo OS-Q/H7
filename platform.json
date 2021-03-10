@@ -4,7 +4,7 @@
   "description": "Espressif Systems is a privately held fabless semiconductor company. They provide wireless communications and Wi-Fi chips which are widely used in mobile devices and the Internet of Things applications.",
   "homepage": "https://espressif.com/",
   "license": "Apache-2.0",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "engines": {
     "platformio": "^5"
   },
@@ -86,21 +86,6 @@
       "owner": "platformio",
       "version": "~3.10005.0"
     },
-    "A52A": {
-      "type": "framework",
-      "optional": true,
-      "version": "https://github.com/OS-Q/A52A.git"
-    },
-    "A52B": {
-      "type": "framework",
-      "optional": true,
-      "version": "https://github.com/OS-Q/A52B.git"
-    },
-    "E52": {
-      "type": "framework",
-      "optional": true,
-      "version": "https://github.com/OS-Q/E52A.git"
-    },
     "framework-espidf": {
       "type": "framework",
       "optional": true,
@@ -119,6 +104,21 @@
       "optional": true,
       "owner": "platformio",
       "version": ">=2.3.0"
+    },
+    "A52A": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/A52A.git"
+    },
+    "A52B": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/A52B.git"
+    },
+    "E52A": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/E52A.git"
     },
     "tool-esptoolpy": {
       "type": "uploader",
