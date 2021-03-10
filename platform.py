@@ -29,7 +29,7 @@ class P52Platform(PlatformBase):
             self.packages["toolchain-xtensa32"]["version"] = "~2.80400.0"
             # if "arduino" in frameworks:
                 # Arduino component is not compatible with ESP-IDF >=4.1
-                # self.packages["E52"]["version"] = "~3.40001.0"
+                # self.packages["E52A"]["version"] = "~3.40001.0"
         # ESP32-S2 toolchain is identical for both Arduino and ESP-IDF
         if mcu == "esp32s2":
             self.packages.pop("toolchain-xtensa32", None)

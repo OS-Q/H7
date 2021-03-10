@@ -21,16 +21,17 @@
     "url": "https://github.com/OS-Q/P52.git"
   },
   "frameworks": {
+    "ino": {
+      "package": "A52A",
+      "script": "builder/extend/arduino.py"
+    },
+    "idf": {
+      "package": "E52A",
+      "script": "builder/extend/idf.py"
+    },
     "arduino": {
       "package": "framework-arduinoespressif32",
       "script": "builder/frameworks/arduino.py"
-    },
-    "idf": {
-      "package": "E52",
-      "script": "builder/extend/idf.py",
-      "description": "ESP-IDF is the official development framework for the ESP32 and ESP32-S Series SoCs.",
-      "homepage": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/",
-      "title": "Espressif IoT Development Framework"
     },
     "espidf": {
       "package": "framework-espidf",
@@ -98,7 +99,7 @@
     "E52": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/E52.git"
+      "version": "https://github.com/OS-Q/E52A.git"
     },
     "framework-espidf": {
       "type": "framework",
