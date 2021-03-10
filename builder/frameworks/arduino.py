@@ -23,11 +23,6 @@ if build_core == "mbcwb":
         join(DefaultEnvironment().PioPlatform().get_package_dir(
             "A52B"), "tools", "esp-build.py"))
 
-elif "idf" not in env.subst("$PIOFRAMEWORK"):
-    SConscript(
-        join(DefaultEnvironment().PioPlatform().get_package_dir(
-            "A52A"), "tools", "build.py"))
-
 elif "espidf" not in env.subst("$PIOFRAMEWORK"):
     SConscript(
         join(DefaultEnvironment().PioPlatform().get_package_dir(
