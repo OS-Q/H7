@@ -194,6 +194,7 @@ env.Append(
 
 if not env.get("PIOFRAMEWORK"):
     env.SConscript("frameworks/_bare.py", exports="env")
+    env.SConscript("extend/_bare.py", exports="env")
 
 #
 # Target: Build executable and linkable firmware or SPIFFS image
