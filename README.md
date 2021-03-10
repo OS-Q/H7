@@ -3,6 +3,7 @@
 [![Build Status](https://github.com/OS-Q/P52/workflows/macos/badge.svg)](https://github.com/OS-Q/P52/actions/workflows/macos.yml)
 [![Build Status](https://github.com/OS-Q/P52/workflows/ubuntu/badge.svg)](https://github.com/OS-Q/P52/actions/workflows/ubuntu.yml)
 [![Build Status](https://github.com/OS-Q/P52/workflows/windows/badge.svg)](https://github.com/OS-Q/P52/actions/workflows/windows.yml)
+[![Build Status](https://github.com/OS-Q/P52/workflows/platformio/badge.svg)](https://github.com/OS-Q/P52/actions/workflows/platformio.yml)
 [![Build Status](https://travis-ci.com/OS-Q/P52.svg?branch=master)](https://travis-ci.com/OS-Q/P52)
 [![Build status](https://ci.appveyor.com/api/projects/status/htc313andl4lh51e?svg=true)](https://ci.appveyor.com/project/Qitas/p52)
 
