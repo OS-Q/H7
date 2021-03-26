@@ -1,3 +1,17 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import copy
 import os
 
@@ -27,13 +41,6 @@ class P52Platform(PlatformBase):
                 elif p in ("tool-mconf", "tool-idf") and "windows" in get_systype():
                     self.packages[p]["optional"] = False
             self.packages["toolchain-xtensa32"]["version"] = "~2.80400.0"
-        if "idf" in frameworks:
-            for p in self.packages:
-                if p in ("tool-cmake", "tool-ninja", "toolchain-%sulp" % mcu):
-                    self.packages[p]["optional"] = False
-                elif p in ("tool-mconf", "tool-idf") and "windows" in get_systype():
-                    self.packages[p]["optional"] = False
-            self.packages["toolchain-xtensa32"]["version"] = "~2.80400.0"
             if "arduino" in frameworks:
                 # Arduino component is not compatible with ESP-IDF >=4.1
                 self.packages["framework-espidf"]["version"] = "~3.40001.0"
@@ -47,8 +54,8 @@ class P52Platform(PlatformBase):
             "board_build.core", board_config.get("build.core", "arduino")
         ).lower()
         if build_core == "mbcwb":
-            self.packages["A52A"]["optional"] = True
-            self.packages["A52B"]["optional"] = False
+            self.packages["framework-arduinoespressif32"]["optional"] = True
+            self.packages["framework-arduino-mbcwb"]["optional"] = False
             self.packages["tool-mbctool"]["type"] = "uploader"
             self.packages["tool-mbctool"]["optional"] = False
 
