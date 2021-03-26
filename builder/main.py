@@ -1,3 +1,17 @@
+# Copyright 2014-present PlatformIO <contact@platformio.org>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import re
 import sys
 from os.path import isfile, join
@@ -43,7 +57,7 @@ def _parse_partitions(env):
     partitions_csv = env.subst("$PARTITIONS_TABLE_CSV")
     if not isfile(partitions_csv):
         sys.stderr.write("Could not find the file %s with partitions "
-                        "table.\n" % partitions_csv)
+                         "table.\n" % partitions_csv)
         env.Exit(1)
         return
 
@@ -67,7 +81,7 @@ def _parse_partitions(env):
             }
             result.append(partition)
             next_offset = (_parse_size(partition['offset']) +
-                            _parse_size(partition['size']))
+                           _parse_size(partition['size']))
     return result
 
 
@@ -194,7 +208,6 @@ env.Append(
 
 if not env.get("PIOFRAMEWORK"):
     env.SConscript("frameworks/_bare.py", exports="env")
-    env.SConscript("extend/_bare.py", exports="env")
 
 #
 # Target: Build executable and linkable firmware or SPIFFS image
@@ -218,8 +231,9 @@ else:
     else:
         target_firm = env.ElfToBin(
             join("$BUILD_DIR", "${PROGNAME}"), target_elf)
+        env.Depends(target_firm, "checkprogsize")
 
-env.AddPlatformTarget("buildfs", target_firm, None, "Build Filesystem Image")
+env.AddPlatformTarget("buildfs", target_firm, target_firm, "Build Filesystem Image")
 AlwaysBuild(env.Alias("nobuild", target_firm))
 target_buildprog = env.Alias("buildprog", target_firm, target_firm)
 
@@ -257,7 +271,7 @@ upload_actions = []
 # Compatibility with old OTA configurations
 if (upload_protocol != "espota"
         and re.match(r"\"?((([0-9]{1,3}\.){3}[0-9]{1,3})|[^\\/]+\.local)\"?$",
-                    env.get("UPLOAD_PORT", ""))):
+                     env.get("UPLOAD_PORT", ""))):
     upload_protocol = "espota"
     sys.stderr.write(
         "Warning! We have just detected `upload_port` as IP address or host "
@@ -275,7 +289,7 @@ if upload_protocol == "espota":
             "espressif32.html#over-the-air-ota-update\n")
     env.Replace(
         UPLOADER=join(
-            platform.get_package_dir("A52A") or "",
+            platform.get_package_dir("framework-arduinoespressif32") or "",
             "tools", "espota.py"),
         UPLOADERFLAGS=["--debug", "--progress", "-i", "$UPLOAD_PORT"],
         UPLOADCMD='"$PYTHONEXE" "$UPLOADER" $UPLOADERFLAGS -f $SOURCE'
@@ -337,11 +351,11 @@ elif upload_protocol == "mbctool":
             "--port", '"$UPLOAD_PORT"',
             "--upload",
             "0x1000", join(
-                platform.get_package_dir("A52B"),
+                platform.get_package_dir("framework-arduino-mbcwb"),
                 "tools", "sdk", "bin", "bootloader_qio_80m.bin"),
             "0x8000", join("$BUILD_DIR", "partitions.bin"),
             "0xe000", join(
-                platform.get_package_dir("A52B"),
+                platform.get_package_dir("framework-arduino-mbcwb"),
                 "tools", "partitions", "boot_app0.bin"),
             "0x10000", join("$BUILD_DIR", "${PROGNAME}.bin"),
         ],
@@ -415,7 +429,7 @@ env.AddPlatformTarget(
 
 if any("-Wl,-T" in f for f in env.get("LINKFLAGS", [])):
     print("Warning! '-Wl,-T' option for specifying linker scripts is deprecated. "
-            "Please use 'board_build.ldscript' option in your 'platformio.ini' file.")
+          "Please use 'board_build.ldscript' option in your 'platformio.ini' file.")
 
 #
 # Default targets
