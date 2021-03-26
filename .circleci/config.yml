@@ -21,7 +21,8 @@ jobs:
           name: "Build"
           command: |
             platformio run -d examples/espidf-arduino-blink
-
+            platformio run -d examples/pumbaa-blink
+            platformio run -d examples/simba-blink
   QIO:
     docker:
       - image: python:3
@@ -43,7 +44,8 @@ jobs:
           name: "Build"
           command: |
             qio run -d examples/espidf-arduino-blink
-
+            qio run -d examples/pumbaa-blink
+            qio run -d examples/simba-blink
 workflows:
     version: 2
     run_ci:

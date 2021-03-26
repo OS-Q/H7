@@ -27,16 +27,9 @@ class P52Platform(PlatformBase):
                 elif p in ("tool-mconf", "tool-idf") and "windows" in get_systype():
                     self.packages[p]["optional"] = False
             self.packages["toolchain-xtensa32"]["version"] = "~2.80400.0"
-        if "idf" in frameworks:
-            for p in self.packages:
-                if p in ("tool-cmake", "tool-ninja", "toolchain-%sulp" % mcu):
-                    self.packages[p]["optional"] = False
-                elif p in ("tool-mconf", "tool-idf") and "windows" in get_systype():
-                    self.packages[p]["optional"] = False
-            self.packages["toolchain-xtensa32"]["version"] = "~2.80400.0"
             if "arduino" in frameworks:
                 # Arduino component is not compatible with ESP-IDF >=4.1
-                self.packages["framework-espidf"]["version"] = "~3.40001.0"
+                self.packages["A52A"]["version"] = "~3.40001.0"
         # ESP32-S2 toolchain is identical for both Arduino and ESP-IDF
         if mcu == "esp32s2":
             self.packages.pop("toolchain-xtensa32", None)
@@ -46,11 +39,6 @@ class P52Platform(PlatformBase):
         build_core = variables.get(
             "board_build.core", board_config.get("build.core", "arduino")
         ).lower()
-        if build_core == "mbcwb":
-            self.packages["A52A"]["optional"] = True
-            self.packages["A52B"]["optional"] = False
-            self.packages["tool-mbctool"]["type"] = "uploader"
-            self.packages["tool-mbctool"]["optional"] = False
 
         return PlatformBase.configure_default_packages(self, variables, targets)
 

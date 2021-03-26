@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-- name: P51
+- name: P52
   image: python:3
   commands:
   - apt update
@@ -11,3 +11,5 @@ steps:
   - pip install -U https://github.com/OS-Q/S03/archive/master.zip
   - qio platform install file://.
   - qio run -d examples/espidf-arduino-blink
+  - qio run -d examples/pumbaa-blink
+  - qio run -d examples/simba-blink
