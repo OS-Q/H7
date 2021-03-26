@@ -20,8 +20,8 @@ jobs:
       matrix:
         python-version: [3.7]
         examples:
-          - "examples/espidf-arduino-blink"
-          - "examples/espidf-arduino-wifiscan"
+          - "examples/blink"
+          - "examples/wifiscan"
           - "examples/espidf-exceptions"
           - "examples/espidf-peripherals-uart"
           - "examples/pumbaa-blink"

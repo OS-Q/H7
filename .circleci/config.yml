@@ -20,7 +20,8 @@ jobs:
       - run:
           name: "Build"
           command: |
-            platformio run -d examples/espidf-arduino-blink
+            platformio run -d examples/blink
+            platformio run -d examples/espidf-exceptions
             platformio run -d examples/pumbaa-blink
             platformio run -d examples/simba-blink
   QIO:
@@ -43,6 +44,7 @@ jobs:
       - run:
           name: "Build"
           command: |
+            qio run -d examples/blink
             qio run -d examples/espidf-arduino-blink
             qio run -d examples/pumbaa-blink
             qio run -d examples/simba-blink

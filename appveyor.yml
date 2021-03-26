@@ -2,8 +2,8 @@ build: off
 environment:
 
   matrix:
-    - PLATFORMIO_PROJECT_DIR: "examples/espidf-arduino-blink"
-    - PLATFORMIO_PROJECT_DIR: "examples/espidf-arduino-wifiscan"
+    - PLATFORMIO_PROJECT_DIR: "examples/blink"
+    - PLATFORMIO_PROJECT_DIR: "examples/wifiscan"
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-exceptions"
     - PLATFORMIO_PROJECT_DIR: "examples/espidf-peripherals-uart"
     - PLATFORMIO_PROJECT_DIR: "examples/pumbaa-blink"
