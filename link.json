@@ -34,7 +34,7 @@
       "script": "builder/extend/simba.py"
     },
     "pumbaa": {
-      "package": "pumbaa",
+      "package": "E52B",
       "script": "builder/extend/E52B.py"
     }
   },
@@ -73,15 +73,15 @@
       "optional": true,
       "version": "https://github.com/OS-Q/E52A.git"
     },
+    "E52B": {
+      "type": "framework",
+      "optional": true,
+      "version": "https://github.com/OS-Q/E52B.git"
+    },
     "simba": {
       "type": "framework",
       "optional": true,
       "version": "https://github.com/OS-Q/simba.git"
-    },
-    "pumbaa": {
-      "type": "framework",
-      "optional": true,
-      "version": "https://github.com/OS-Q/E52B.git"
     },
     "tool-esptoolpy": {
       "type": "uploader",
