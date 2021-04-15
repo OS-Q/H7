@@ -1,6 +1,6 @@
 {
   "name": "P52",
-  "title": "Platform P52 (ESP32)",
+  "title": "Espressif 32",
   "description": "Espressif Systems is a privately held fabless semiconductor company. They provide wireless communications and Wi-Fi chips which are widely used in mobile devices and the Internet of Things applications.",
   "homepage": "https://espressif.com/",
   "license": "Apache-2.0",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/platformio/platform-espressif32.git"
   },
-  "version": "3.1.0",
+  "version": "3.2.0",
   "frameworks": {
     "arduino": {
       "package": "framework-arduinoespressif32",
@@ -75,7 +75,7 @@
       "type": "framework",
       "optional": true,
       "owner": "platformio",
-      "version": "~3.10005.0"
+      "version": "~3.10006.0"
     },
     "framework-arduino-mbcwb": {
       "type": "framework",
