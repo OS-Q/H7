@@ -23,19 +23,19 @@
   "frameworks": {
     "arduino": {
       "package": "A52A",
-      "script": "builder/extend/A52A.py"
+      "script": "extend/A52A.py"
     },
     "espidf": {
       "package": "E52A",
-      "script": "builder/extend/E52A.py"
+      "script": "extend/E52A.py"
     },
     "simba": {
       "package": "simba",
-      "script": "builder/extend/simba.py"
+      "script": "extend/simba.py"
     },
     "pumbaa": {
       "package": "E52B",
-      "script": "builder/extend/E52B.py"
+      "script": "extend/E52B.py"
     }
   },
   "packages": {

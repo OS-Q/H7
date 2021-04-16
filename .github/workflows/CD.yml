@@ -19,8 +19,8 @@ jobs:
           - "examples/wifiscan"
           - "examples/simba-blink"
           - "examples/pumbaa-blink"
-          - "examples/espidf-exceptions"
-          - "examples/espidf-peripherals-uart"
+          # - "examples/espidf-exceptions"
+          # - "examples/espidf-peripherals-uart"
 
     steps:
     - uses: actions/checkout@v2

@@ -26,8 +26,8 @@ jobs:
           - "examples/wifiscan"
           - "examples/simba-blink"
           - "examples/pumbaa-blink"
-          - "examples/espidf-exceptions"
-          - "examples/espidf-peripherals-uart"
+          # - "examples/espidf-exceptions"
+          # - "examples/espidf-peripherals-uart"
 
     runs-on: ${{ matrix.os }}
     steps:
