@@ -62,9 +62,10 @@ jobs:
 
       - name: Build
         id: build
+        working-directory: examples/${{ matrix.examples }}
         if: success() && github.repository == 'OS-Q/P52'
         run: |
-          pio run -d examples/${{ matrix.examples }} > build/log.txt
+          pio run -d . > build/log.txt
           echo "::set-output name=status::success"
 
       - name: Upload
