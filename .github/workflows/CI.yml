@@ -16,11 +16,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        python: [3.9]
-        tool:
-          - "PIO"
-          - "QIO"
         examples:
           - "examples/blink"
           - "examples/wifiscan"
@@ -28,6 +23,11 @@ jobs:
           - "examples/pumbaa-blink"
           # - "examples/espidf-exceptions"
           # - "examples/espidf-peripherals-uart"
+        os: [ubuntu-latest]
+        python: [3.9]
+        tool:
+          - "PIO"
+          - "QIO"
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -63,7 +63,7 @@ jobs:
           echo "::set-output name=status::success"
 
       - name: Upload
-        if: steps.build.outputs.status == 'success' && matrix.tool == 'QIO'
+        if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD == true
         uses: actions/upload-artifact@v2
         with:
           name: P52
