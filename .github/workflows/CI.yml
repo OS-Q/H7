@@ -12,22 +12,21 @@ env:
 
 jobs:
   build:
-    if: github.repository == 'OS-Q/P52'
     strategy:
       fail-fast: false
       matrix:
         examples:
-          - "examples/blink"
-          - "examples/wifiscan"
-          - "examples/simba-blink"
-          - "examples/pumbaa-blink"
+          - "blink"
+          - "wifiscan"
+          - "simba-blink"
+          - "pumbaa-blink"
           # - "examples/espidf-exceptions"
           # - "examples/espidf-peripherals-uart"
         os: [ubuntu-latest]
         python: [3.9]
-        tool:
-          - "PIO"
-          - "QIO"
+        package:
+          - "release"
+          - "latest"
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -41,15 +40,15 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      - name: Install PIO
-        if: matrix.tool == 'PIO'
+      - name: Install release
+        if: matrix.package == 'release'
         run: |
           python -m pip install --upgrade pip
-          pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install file://.
+          pip install -U https://github.com/OS-Q/S03/archive/master.zip
+          pio platform install https://github.com/OS-Q/P52/releases/latest/download/P52.zip
 
-      - name: Install QIO
-        if: matrix.tool == 'QIO'
+      - name: Install latest
+        if: matrix.package == 'latest'
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/OS-Q/S03/archive/master.zip
@@ -57,14 +56,25 @@ jobs:
 
       - name: Build
         id: build
-        if: success()
+        if: success() && github.repository == 'OS-Q/P52'
         run: |
-          pio run -d ${{ matrix.examples }}
+          pio run -d examples/${{ matrix.examples }}
           echo "::set-output name=status::success"
 
       - name: Upload
-        if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD == true
+        if: steps.build.outputs.status == 'success' && env.UPLOAD_BUILD == 'true'
         uses: actions/upload-artifact@v2
         with:
-          name: P52
-          path: ${{ matrix.examples }}
+          name: P52_${{ matrix.examples }}_${{ matrix.package }}
+          path: examples/${{ matrix.examples }}
+
+      - name: notification
+        uses: stopstopstop/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}/${{ matrix.os }}/${{ matrix.package }}/${{ matrix.python }}/${{ matrix.examples }}
+          message: ${{steps.build.outputs.status}}

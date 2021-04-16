@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-- name: P52
+- name: OSQ
   image: python:3
   commands:
   - apt update
@@ -10,6 +10,6 @@ steps:
   - git submodule update --init --recursive
   - pip install -U https://github.com/OS-Q/S03/archive/master.zip
   - qio platform install file://.
-  - qio run -d examples/espidf-arduino-blink
+  - qio run -d examples/blink
   - qio run -d examples/pumbaa-blink
   - qio run -d examples/simba-blink
