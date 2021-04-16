@@ -16,8 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         examples:
-          - "blink"
-          - "wifiscan"
+          - "arduino-blink"
+          - "arduino-wifiscan"
           - "simba-blink"
           - "pumbaa-blink"
         package:

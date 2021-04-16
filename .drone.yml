@@ -10,6 +10,7 @@ steps:
   - git submodule update --init --recursive
   - pip install -U https://github.com/OS-Q/S03/archive/master.zip
   - qio platform install file://.
-  - qio run -d examples/blink
+  - qio run -d examples/arduino-blink
+  - qio run -d examples/arduino-wifiscan
   - qio run -d examples/pumbaa-blink
   - qio run -d examples/simba-blink

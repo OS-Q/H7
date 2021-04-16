@@ -27,7 +27,8 @@ jobs:
 
     - name: Build
       run: |
-        qio run -d examples/blink
+        qio run -d examples/arduino-blink
+        qio run -d examples/arduino-wifiscan
         qio run -d examples/simba-blink
         qio run -d examples/pumbaa-blink
 
@@ -123,7 +124,7 @@ jobs:
         id: rebuild
         if: steps.getgh.outputs.status == 'success' && !cancelled()
         run: |
-          qio run -d examples/blink
+          qio run -d examples/arduino-blink
           qio run -d examples/simba-blink
           qio run -d examples/pumbaa-blink
           echo "::set-output name=status::success"

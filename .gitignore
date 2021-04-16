@@ -3,3 +3,10 @@
 __pycache__/
 *.vscode/
 *.pio/
+*.rst
+*.md
+README*
+LICENSE*
+*.png
+*.jpg
+**/*.yml
