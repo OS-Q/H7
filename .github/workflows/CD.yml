@@ -48,7 +48,7 @@ jobs:
         id: tag
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          echo "::set-output name=release_tag::release_package_$(date +"%Y.%m.%d")_${GITHUB_REF/refs\/tags\//}"
+          echo "::set-output name=release_tag::release_package_${GITHUB_REF/refs\/tags\//}"
           echo "::set-output name=status::success"
 
       - name: Package Src
