@@ -26,7 +26,7 @@
     "simba",
     "pumbaa"
   ],
-  "name": "Nano32",
+  "name": "B52A",
   "upload": {
     "flash_size": "4MB",
     "maximum_ram_size": 327680,
@@ -34,6 +34,6 @@
     "require_upload_port": true,
     "speed": 460800
   },
-  "url": "http://iot-bits.com/nano32-esp32-development-board",
+  "url": "http://WWW.OS-Q.COM/B52A",
   "vendor": "OSQ"
 }
