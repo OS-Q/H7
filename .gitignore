@@ -9,4 +9,4 @@ README*
 LICENSE*
 *.png
 *.jpg
-**/*.yml
+examples/**/*.yml

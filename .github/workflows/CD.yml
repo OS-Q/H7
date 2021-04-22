@@ -70,7 +70,7 @@ jobs:
           echo $(date +"%Y.%m.%d") >> qio/mail.md
           echo -e "www.OS-Q.com\n" >> log.txt
           git log --stat -1 >> log.txt
-          zip -r package.zip boards extend link.json link.py
+          zip -r package.zip boards extend monitor link.json link.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
 
