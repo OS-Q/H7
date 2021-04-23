@@ -166,7 +166,7 @@ jobs:
           username: ${{secrets.MQTT_USERNAME}}
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
-          message: "release ${GITHUB_REF/refs\/tags\//} success"
+          message: "release success"
 
       - name: Delet tag
         run: |
