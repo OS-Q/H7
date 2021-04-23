@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
+      - "[0-9]+.[0-9]+.[0-9]+*"
 
 env:
   UPLOAD_BUILD: false
@@ -21,26 +22,61 @@ jobs:
           - "pumbaa-blink"
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: "recursive"
-        fetch-depth: 1
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
 
-    - name: Set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.9
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
 
-    - name: Install
-      run: |
-        python -m pip install --upgrade pip
-        pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-        qio platform install file://.
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          qio platform install file://.
 
-    - name: Build
-      working-directory: examples
-      run: |
-        qio run -d ${{ matrix.example }}
+      - name: Build
+        working-directory: examples
+        run: |
+          qio run -d ${{ matrix.example }}
+
+      - name: Upload
+        if: env.UPLOAD_BUILD
+        uses: actions/upload-artifact@v2
+        with:
+          name: qio_${{ matrix.example }}_${{ matrix.os }}
+          path: examples/${{ matrix.example }}/.pio
+
+  build_fail:
+    needs:
+      - build
+    if: failure() && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: Qful/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
+          message: "build fail"
+
+      - name: Delet tag
+        run: |
+          git fetch
+          git tag -d ${GITHUB_REF/refs\/tags\//}
+          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
 
   release:
     needs:
@@ -67,11 +103,11 @@ jobs:
           echo "Platform P52 for ESP32 SoC" >> log.txt
           echo $(date +"%Y.%m.%d") >> log.txt
           echo ${GITHUB_REF/refs\/tags\//} >> log.txt
+          echo "www.OS-Q.com\n" >> log.txt
+          git log --stat -1 >> log.txt
           echo ${GITHUB_REF/refs\/tags\//} >> qio/mail.md
           echo $(date +"%Y.%m.%d") >> qio/mail.md
-          echo -e "www.OS-Q.com\n" >> log.txt
-          git log --stat -1 >> log.txt
-          zip -r package.zip boards extend monitor link.json link.py
+          zip -r package.zip boards builder extend monitor link.json link.py platform.json platform.py
           echo "FIRMWARE=$PWD" >> $GITHUB_ENV
           echo "::set-output name=status::success"
 
@@ -101,13 +137,36 @@ jobs:
           access-key-id: ${{ secrets.OSS_ACCESS_KEY_ID }}
           access-key-secret: ${{ secrets.OSS_ACCESS_KEY_SECRET }}
 
-      - name: Upload To OSS
+      - name: Upload OSS
         id: OSS
         run: |
           cp package.zip P52.zip
           cp package.zip P52_${GITHUB_REF/refs\/tags\//}.zip
-          ossutil cp ${{ env.FIRMWARE }}/P52*.zip ${{ secrets.OSS_P_BUCKET }} -rf
+          ossutil cp ${{ env.FIRMWARE }}/P52.zip ${{ secrets.OSS_P_BUCKET }} -rf
+          ossutil cp ${{ env.FIRMWARE }}/P52_${GITHUB_REF/refs\/tags\//}.zip ${{ secrets.OSS_P_BUCKET }} -f
           echo "::set-output name=status::success"
+
+  release_pass:
+    needs:
+      - release
+    if: success() && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: Qful/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
+          message: "release ${GITHUB_REF/refs\/tags\//} success"
 
       - name: Delet tag
         run: |
@@ -115,11 +174,38 @@ jobs:
           git tag -d ${GITHUB_REF/refs\/tags\//}
           git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
 
+  release_fail:
+    needs:
+      - release
+    if: failure() && startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+
+      - name: notification
+        uses: Qful/mqtt-action@master
+        with:
+          protocol: mqtt
+          host: ${{secrets.MQTT_SERVER}}
+          port: 1883
+          username: ${{secrets.MQTT_USERNAME}}
+          password: ${{secrets.MQTT_PASSWORD}}
+          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
+          message: "release fail"
+
+      - name: Delet tag
+        run: |
+          git fetch
+          git tag -d ${GITHUB_REF/refs\/tags\//}
+          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
 
   rebuild:
     needs:
       - release
-    if: success() && startsWith(github.ref, 'refs/tags/')
+    if: success()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -166,16 +252,13 @@ jobs:
           attachments: log.txt
           body: file://./qio/mail.md
 
-      - name: Delet tag
-        run: |
-          git fetch
-          git tag -d ${GITHUB_REF/refs\/tags\//}
-          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
 
-  build_fail:
+
+
+  rebuild_pass:
     needs:
-      - build
-    if: failure() && startsWith(github.ref, 'refs/tags/')
+      - rebuild
+    if: success()
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -191,42 +274,9 @@ jobs:
           port: 1883
           username: ${{secrets.MQTT_USERNAME}}
           password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
-          message: "build fail"
+          topic: ${{github.repository}}/${{github.workflow}}
+          message: "rebuild success"
 
-      - name: Delet tag
-        run: |
-          git fetch
-          git tag -d ${GITHUB_REF/refs\/tags\//}
-          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
-
-  release_fail:
-    needs:
-      - release
-    if: failure() && startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: "recursive"
-
-      - name: notification
-        uses: Qful/mqtt-action@master
-        with:
-          protocol: mqtt
-          host: ${{secrets.MQTT_SERVER}}
-          port: 1883
-          username: ${{secrets.MQTT_USERNAME}}
-          password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}/${GITHUB_REF/refs\/tags\//}
-          message: "release fail"
-
-      - name: Delet tag
-        run: |
-          git fetch
-          git tag -d ${GITHUB_REF/refs\/tags\//}
-          git push origin :refs/tags/${GITHUB_REF/refs\/tags\//}
 
   rebuild_fail:
     needs:
