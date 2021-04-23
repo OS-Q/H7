@@ -4,9 +4,12 @@ __pycache__/
 *.vscode/
 *.pio/
 *.rst
-*.md
+# *.md
 README*
 LICENSE*
 *.png
 *.jpg
 examples/**/*.yml
+**/CONTR*
+**/CHANGE*
+examples/**/*.md

@@ -38,8 +38,9 @@ jobs:
         qio platform install file://.
 
     - name: Build
+      working-directory: examples
       run: |
-        qio run -d examples/${{ matrix.example }}
+        qio run -d ${{ matrix.example }}
 
   release:
     needs:
@@ -63,7 +64,7 @@ jobs:
       - name: Package
         id: package
         run: |
-          echo "Platform P52 for ESP8266/ESP8285 SoC" >> log.txt
+          echo "Platform P52 for ESP32 SoC" >> log.txt
           echo $(date +"%Y.%m.%d") >> log.txt
           echo ${GITHUB_REF/refs\/tags\//} >> log.txt
           echo ${GITHUB_REF/refs\/tags\//} >> qio/mail.md
@@ -104,7 +105,8 @@ jobs:
         id: OSS
         run: |
           cp package.zip P52.zip
-          ossutil cp ${{ env.FIRMWARE }}/P52.zip ${{ secrets.OSS_P_BUCKET }} -rf
+          cp package.zip P52_${GITHUB_REF/refs\/tags\//}.zip
+          ossutil cp ${{ env.FIRMWARE }}/P52*.zip ${{ secrets.OSS_P_BUCKET }} -rf
           echo "::set-output name=status::success"
 
       - name: Delet tag
