@@ -138,6 +138,7 @@ jobs:
           - "arduino-wifiscan"
           - "simba-blink"
           - "pumbaa-blink"
+          - "espidf-arduino-wifiscan"
 
         os: [ubuntu-latest, windows-latest, macos-latest]
 
