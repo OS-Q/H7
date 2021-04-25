@@ -15,14 +15,14 @@ jobs:
           name: "Install"
           command: |
             python -m pip install --upgrade pip
-            pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-            qio platform install file://.
+            pip install -U https://github.com/platformio/platformio/archive/develop.zip
+            pio platform install file://.
       - run:
           name: "Build"
           command: |
-            qio run -d examples/arduino-blink
-            qio run -d examples/pumbaa-blink
-            qio run -d examples/simba-blink
+            pio run -d examples/arduino-blink
+            pio run -d examples/pumbaa-blink
+            pio run -d examples/simba-blink
 
 workflows:
     version: 2
