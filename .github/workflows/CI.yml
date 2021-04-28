@@ -5,10 +5,13 @@ on:
     branches:
       - master
       - main
-    paths-ignore:
-      - '**.md'
-      - 'CD.yml'
-      - 'nightly.yml'
+    paths:
+      - 'boards/**'
+      - 'builder/**'
+      - 'extend/**'
+      - 'examples/**'
+      - '**.json'
+      - '**.py'
 
 env:
   UPLOAD_BUILD: true

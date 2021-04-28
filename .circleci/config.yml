@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  PIO:
+  QIO:
     docker:
       - image: python:3
     steps:
@@ -13,6 +13,26 @@ jobs:
             git submodule update --init --recursive
             python -m pip install --upgrade pip
             pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+            qio platform install file://.
+      - run:
+          name: "Build"
+          command: |
+            pio run -d examples/arduino-blink
+            pio run -d examples/pumbaa-blink
+            pio run -d examples/simba-blink
+  PIO:
+    docker:
+      - image: python:3
+    steps:
+      - checkout
+      - run:
+          name: "Install"
+          command: |
+            apt update
+            apt install -y git
+            git submodule update --init --recursive
+            python -m pip install --upgrade pip
+            pip install -U https://github.com/platformio/platformio/archive/develop.zip
             pio platform install file://.
       - run:
           name: "Build"
@@ -25,4 +45,6 @@ workflows:
     version: 2
     run_ci:
         jobs:
+          - QIO
           - PIO
+
