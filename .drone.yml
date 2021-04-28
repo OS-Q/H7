@@ -2,14 +2,14 @@ kind: pipeline
 name: OSQ
 
 steps:
-- name: example
+- name: QIO
   image: python:3
   commands:
   - apt update
   - apt install -y git
   - git submodule update --init --recursive
-  - pip install -U https://github.com/platformio/platformio/archive/develop.zip
-  - pio platform install file://.
+  - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+  - pio platform install https://github.com/OS-Q/P22/archive/qio.zip
   - pio run -d examples/arduino-blink
   - pio run -d examples/arduino-wifiscan
   - pio run -d examples/pumbaa-blink
