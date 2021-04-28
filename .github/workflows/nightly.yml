@@ -11,8 +11,8 @@ on:
 
 env:
   MONT: "M03"
-  PLAT: "P41"
-  TEMP: "F41"
+  PLAT: "P51"
+  TEMP: "F51"
 
 jobs:
   QIO:
