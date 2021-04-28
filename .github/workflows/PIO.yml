@@ -21,6 +21,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         submodules: "recursive"
+        fetch-depth: 1
 
     - name: cppcheck
       uses: Qful/check-action@master
@@ -53,25 +54,23 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          # - "arduino-blink"
-          # - "arduino-wifiscan"
-          # - "simba-blink"
-          # - "pumbaa-blink"
-          # - "arduino-briki-internal-libs"
-          - "espidf-arduino-blink"
-          - "espidf-arduino-wifiscan"
-          # - "espidf-aws-iot"
-          # - "espidf-ble-eddystone"
-          # - "espidf-coap-server"
-          # - "espidf-exceptions"
-          # - "espidf-hello-world"
-          # - "espidf-http-request"
-          # - "espidf-peripherals-uart"
-          # - "espidf-peripherals-usb"
-          # - "espidf-storage-sdcard"
-          # - "espidf-storage-spiffs"
-          # - "espidf-ulp-adc"
-          # - "espidf-ulp-pulse"
+          - "arduino-blink"
+          - "arduino-wifiscan"
+          - "simba-blink"
+          - "pumbaa-blink"
+          - "arduino-briki-internal-libs"
+          - "espidf-aws-iot"
+          - "espidf-ble-eddystone"
+          - "espidf-coap-server"
+          - "espidf-exceptions"
+          - "espidf-hello-world"
+          - "espidf-http-request"
+          - "espidf-peripherals-uart"
+          - "espidf-peripherals-usb"
+          - "espidf-storage-sdcard"
+          - "espidf-storage-spiffs"
+          - "espidf-ulp-adc"
+          - "espidf-ulp-pulse"
 
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -80,7 +79,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
-          # fetch-depth: 1
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v1
@@ -98,9 +97,7 @@ jobs:
         if: success()
         working-directory: examples
         run: |
-          pio run -d ${{ matrix.example }} >> ${{ matrix.example }}/log.txt
-          echo "::set-output name=status::success"
-
+          pio run -d ${{ matrix.example }}
 
   pio_tail:
     needs:
