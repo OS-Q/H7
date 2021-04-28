@@ -1,4 +1,4 @@
-﻿# [P52](https://github.com/OS-Q/P52)
+﻿# [P51](https://github.com/OS-Q/P51)
 
 [![sites](http://182.61.61.133/link/resources/OSQ.png)](http://www.OS-Q.com)
 
@@ -11,9 +11,9 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/htc313andl4lh51e?svg=true)](https://ci.appveyor.com/project/Qitas/p52)
 
 
-### [简介](https://github.com/OS-Q/P52/wiki)
+### [简介](https://github.com/OS-Q/P51/wiki)
 
-[P52](https://github.com/OS-Q/P52) 适用于[ESP32](https://github.com/SoCXin/ESP32) 开发
+[P51](https://github.com/OS-Q/P51) 适用于[ESP32](https://github.com/SoCXin/ESP32) 开发
 
 #### 基本特性
 
