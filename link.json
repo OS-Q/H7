@@ -1,41 +1,40 @@
 {
   "name": "P51",
-  "title": "Platform ESP32 SoC",
+  "title": "ESP32 SoC",
   "description": "Espressif Systems is a privately held fabless semiconductor company. They provide wireless communications and Wi-Fi chips which are widely used in mobile devices and the Internet of Things applications.",
   "homepage": "https://espressif.com/",
   "license": "Apache-2.0",
-  "version": "3.1.1",
-  "engines": {
-    "platformio": "^5"
-  },
   "keywords": [
-    "OS-Q",
     "dev-platform",
     "Wi-Fi",
     "Bluetooth",
     "Xtensa",
     "LX6"
   ],
+  "engines": {
+    "platformio": "^5"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P51.git"
+    "url": "https://github.com/platformio/platform-espressif32.git"
   },
+  "version": "3.2.0",
   "frameworks": {
     "arduino": {
-      "package": "A52A",
-      "script": "extend/A52A.py"
+      "package": "framework-arduinoespressif32",
+      "script": "extend/frameworks/arduino.py"
     },
     "espidf": {
-      "package": "E52A",
-      "script": "extend/E52A.py"
+      "package": "framework-espidf",
+      "script": "extend/frameworks/espidf.py"
     },
     "simba": {
-      "package": "simba",
-      "script": "extend/simba.py"
+      "package": "framework-simba",
+      "script": "extend/frameworks/simba.py"
     },
     "pumbaa": {
-      "package": "E52B",
-      "script": "extend/E52B.py"
+      "package": "framework-pumbaa",
+      "script": "extend/frameworks/pumbaa.py"
     }
   },
   "packages": {
@@ -63,25 +62,36 @@
       "owner": "platformio",
       "version": "~1.22851.0"
     },
-    "A52A": {
+    "framework-arduinoespressif32": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/A52A.git"
+      "owner": "platformio",
+      "version": "~3.10006.0"
     },
-    "E52A": {
+    "framework-arduino-mbcwb": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/E52A.git"
+      "owner": "meteca",
+      "version": ">=2.1.1"
     },
-    "E52B": {
+    "framework-espidf": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/E52B.git"
+      "owner": "platformio",
+      "version": "~3.40200.0",
+      "optionalVersions": ["~3.40001.0"]
     },
-    "simba": {
+    "framework-simba": {
       "type": "framework",
       "optional": true,
-      "version": "https://github.com/OS-Q/simba.git"
+      "owner": "platformio",
+      "version": ">=12.2.0"
+    },
+    "framework-pumbaa": {
+      "type": "framework",
+      "optional": true,
+      "owner": "platformio",
+      "version": ">=2.3.0"
     },
     "tool-esptoolpy": {
       "type": "uploader",

@@ -5,6 +5,7 @@ from platformio import fs
 from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
+
 class P51Platform(PlatformBase):
     def configure_default_packages(self, variables, targets):
         if not variables.get("board"):
@@ -26,9 +27,9 @@ class P51Platform(PlatformBase):
                 elif p in ("tool-mconf", "tool-idf") and "windows" in get_systype():
                     self.packages[p]["optional"] = False
             self.packages["toolchain-xtensa32"]["version"] = "~2.80400.0"
-            # if "arduino" in frameworks:
-            #     # Arduino component is not compatible with ESP-IDF >=4.1
-            #     self.packages["A52A"]["version"] = "~3.1.0"
+            if "arduino" in frameworks:
+                # Arduino component is not compatible with ESP-IDF >=4.1
+                self.packages["framework-espidf"]["version"] = "~3.40001.0"
         # ESP32-S2 toolchain is identical for both Arduino and ESP-IDF
         if mcu == "esp32s2":
             self.packages.pop("toolchain-xtensa32", None)
@@ -38,6 +39,11 @@ class P51Platform(PlatformBase):
         build_core = variables.get(
             "board_build.core", board_config.get("build.core", "arduino")
         ).lower()
+        if build_core == "mbcwb":
+            self.packages["framework-arduinoespressif32"]["optional"] = True
+            self.packages["framework-arduino-mbcwb"]["optional"] = False
+            self.packages["tool-mbctool"]["type"] = "uploader"
+            self.packages["tool-mbctool"]["optional"] = False
 
         return PlatformBase.configure_default_packages(self, variables, targets)
 
@@ -141,7 +147,43 @@ class P51Platform(PlatformBase):
         board.manifest["debug"] = debug
         return board
 
+    def configure_debug_session(self, debug_config):
+        build_extra_data = debug_config.build_data.get("extra", {})
+        flash_images = build_extra_data.get("flash_images", [])
+
+        if "openocd" in (debug_config.server or {}).get("executable", ""):
+            debug_config.server["arguments"].extend(
+                ["-c", "adapter_khz %s" % (debug_config.speed or "5000")]
+            )
+
+        ignore_conds = [
+            debug_config.load_cmds != ["load"],
+            not flash_images,
+            not all([os.path.isfile(item["path"]) for item in flash_images]),
+        ]
+
+        if any(ignore_conds):
+            return
+
+        load_cmds = [
+            'monitor program_esp "{{{path}}}" {offset} verify'.format(
+                path=fs.to_unix_path(item["path"]), offset=item["offset"]
+            )
+            for item in flash_images
+        ]
+        load_cmds.append(
+            'monitor program_esp "{%s.bin}" %s verify'
+            % (
+                fs.to_unix_path(debug_config.build_data["prog_path"][:-4]),
+                build_extra_data.get("application_offset", "0x10000"),
+            )
+        )
+        debug_config.load_cmds = load_cmds
+
     def configure_debug_options(self, initial_debug_options, ide_data):
+        """
+        Deprecated. Remove method when PlatformIO Core 5.2 is released
+        """
         ide_extra_data = ide_data.get("extra", {})
         flash_images = ide_extra_data.get("flash_images", [])
         debug_options = copy.deepcopy(initial_debug_options)

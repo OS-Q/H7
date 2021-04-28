@@ -8,6 +8,11 @@ Import("env")
 
 board = env.BoardConfig()
 
+#
+# Embedded files helpers
+#
+
+
 def extract_files(cppdefines, files_type):
     files = []
     if "build." + files_type in board:
@@ -125,7 +130,7 @@ env.Append(
                         "-DFILE_TYPE=TEXT",
                         "-P",
                         join(
-                            env.PioPlatform().get_package_dir("E52A") or "",
+                            env.PioPlatform().get_package_dir("framework-espidf") or "",
                             "tools",
                             "cmake",
                             "scripts",

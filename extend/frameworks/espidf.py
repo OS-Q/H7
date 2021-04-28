@@ -18,14 +18,14 @@ from platformio.util import get_systype
 from platformio.builder.tools.piolib import ProjectAsLibBuilder
 
 env = DefaultEnvironment()
-env.SConscript("_common.py", exports="env")
+env.SConscript("_embed_files.py", exports="env")
 
 platform = env.PioPlatform()
 board = env.BoardConfig()
 mcu = board.get("build.mcu", "esp32")
 idf_variant = mcu.lower()
 
-FRAMEWORK_DIR = platform.get_package_dir("E52A")
+FRAMEWORK_DIR = platform.get_package_dir("framework-espidf")
 TOOLCHAIN_DIR = platform.get_package_dir(
     "toolchain-xtensa%s" % ("32s2" if mcu == "esp32s2" else "32")
 )
@@ -33,7 +33,7 @@ assert os.path.isdir(FRAMEWORK_DIR)
 
 # Arduino framework as a component is not compatible with ESP-IDF >=4.1
 if "arduino" in env.subst("$PIOFRAMEWORK"):
-    ARDUINO_FRAMEWORK_DIR = platform.get_package_dir("A52A")
+    ARDUINO_FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoespressif32")
     # Possible package names in 'package@version' format is not compatible with CMake
     if "@" in os.path.basename(ARDUINO_FRAMEWORK_DIR):
         new_path = os.path.join(
@@ -807,7 +807,7 @@ def create_version_file():
     version_file = os.path.join(FRAMEWORK_DIR, "version.txt")
     if not os.path.isfile(version_file):
         with open(version_file, "w") as fp:
-            fp.write(platform.get_package_version("E52A"))
+            fp.write(platform.get_package_version("framework-espidf"))
 
 
 def generate_empty_partition_image(binary_path, image_size):
