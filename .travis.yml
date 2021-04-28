@@ -3,19 +3,20 @@ python:
   - "3.9"
 os:
   - linux
-
 git:
   depth: 1
-
+before_install: python -m pip install --upgrade pip
 env:
   - PLATFORMIO_PROJECT_DIR=examples/arduino-blink
-  - PLATFORMIO_PROJECT_DIR=examples/arduino-wifiscan
   - PLATFORMIO_PROJECT_DIR=examples/pumbaa-blink
   - PLATFORMIO_PROJECT_DIR=examples/simba-blink
 
 install:
   - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-  - qio platform install file://.
+  - qio platform install https://github.com/OS-Q/P51/archive/qio.zip
 
 script:
   - qio run -d $PLATFORMIO_PROJECT_DIR
+
+notifications:
+  email: false

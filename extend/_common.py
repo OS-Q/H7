@@ -8,11 +8,6 @@ Import("env")
 
 board = env.BoardConfig()
 
-#
-# Embedded files helpers
-#
-
-
 def extract_files(cppdefines, files_type):
     files = []
     if "build." + files_type in board:

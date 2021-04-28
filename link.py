@@ -5,8 +5,7 @@ from platformio import fs
 from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
-
-class P52Platform(PlatformBase):
+class P51Platform(PlatformBase):
     def configure_default_packages(self, variables, targets):
         if not variables.get("board"):
             return PlatformBase.configure_default_packages(self, variables, targets)
