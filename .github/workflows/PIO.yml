@@ -4,17 +4,17 @@ on:
   push:
     branches:
       - pio
-    paths-ignore:
-      - '**.md'
-      - 'CD.yml'
-      - 'nightly.yml'
-
-env:
-  UPLOAD_BUILD: true
+    paths:
+      - 'boards/**'
+      - 'builder/**'
+      - 'monitor/**'
+      - 'examples/**'
+      - 'platform.json'
+      - 'platform.py'
 
 jobs:
   CodeCheck:
-    name: CodeCheck
+    name: Lint
     runs-on: ubuntu-latest
     steps:
     - name: Check out
@@ -91,7 +91,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install file://.
+          pio platform install https://github.com/OS-Q/P51/archive/pio.zip
 
       - name: Build examples
         id: build
@@ -101,31 +101,8 @@ jobs:
           pio run -d ${{ matrix.example }} >> ${{ matrix.example }}/log.txt
           echo "::set-output name=status::success"
 
-      - name: Upload
-        if: env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name: pio_${{ matrix.example }}_${{ matrix.os }}
-          path: examples/${{ matrix.example }}/.pio
 
-  pio_pass:
-    needs:
-      - PIO
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-      - name: notification
-        uses: Qful/mqtt-action@master
-        with:
-          protocol: mqtt
-          host: ${{secrets.MQTT_SERVER}}
-          port: 1883
-          username: ${{secrets.MQTT_USERNAME}}
-          password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}
-          message: "PIO success"
-
-  pio_fail:
+  pio_tail:
     needs:
       - PIO
     if: failure()
