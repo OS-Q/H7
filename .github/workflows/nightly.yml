@@ -24,6 +24,19 @@ jobs:
           - "arduino-wifiscan"
           - "simba-blink"
           - "pumbaa-blink"
+          - "arduino-briki-internal-libs"
+          - "espidf-aws-iot"
+          - "espidf-ble-eddystone"
+          - "espidf-coap-server"
+          - "espidf-exceptions"
+          - "espidf-hello-world"
+          - "espidf-http-request"
+          - "espidf-peripherals-uart"
+          - "espidf-peripherals-usb"
+          - "espidf-storage-sdcard"
+          - "espidf-storage-spiffs"
+          - "espidf-ulp-adc"
+          - "espidf-ulp-pulse"
         package: ["master","slave"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -87,20 +100,22 @@ jobs:
       matrix:
         example:
           - "arduino-blink"
-          - "arduino-ble-led"
-          - "arduino-serial-plotter"
-          # - "arduino-bluefruit-bleuart"
-          - "arduino-nina-b1-generic-example"
-          - "mbed-rtos-ble-thermometer"
-          - "mbed-rtos-blink-baremetal"
-          - "mbed-ble-thermometer"
-          - "mbed-rtos-nfc"
-          - "mbed-rtos"
-          - "mbed-nfc"
-          - "zephyr-blink"
-          - "zephyr-ble-beacon"
-          - "zephyr-subsys-nvs"
-          - "zephyr-net-echo-client"
+          - "arduino-wifiscan"
+          - "simba-blink"
+          - "pumbaa-blink"
+          - "arduino-briki-internal-libs"
+          - "espidf-aws-iot"
+          - "espidf-ble-eddystone"
+          - "espidf-coap-server"
+          - "espidf-exceptions"
+          - "espidf-hello-world"
+          - "espidf-http-request"
+          - "espidf-peripherals-uart"
+          - "espidf-peripherals-usb"
+          - "espidf-storage-sdcard"
+          - "espidf-storage-spiffs"
+          - "espidf-ulp-adc"
+          - "espidf-ulp-pulse"
         package: ["master","slave"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -133,13 +148,6 @@ jobs:
         working-directory: examples
         run: |
           pio run -d ${{ matrix.example }}
-
-      # - name: Upload
-      #   if: env.UPLOAD_BUILD
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: pio_build_${{ matrix.example }}
-      #     path: examples/${{ matrix.example }}/.pio/build/
 
   PIO_tail:
     needs:

@@ -54,16 +54,22 @@ jobs:
       matrix:
         example:
           - "arduino-blink"
-          - "arduino-ble-led"
-          - "arduino-serial-plotter"
-          # - "arduino-bluefruit-bleuart"
-          - "arduino-nina-b1-generic-example"
-          - "mbed-rtos-ble-thermometer"
-          - "mbed-rtos-blink-baremetal"
-          - "mbed-ble-thermometer"
-          - "mbed-rtos-nfc"
-          - "mbed-rtos"
-          - "mbed-nfc"
+          - "arduino-wifiscan"
+          - "simba-blink"
+          - "pumbaa-blink"
+          - "arduino-briki-internal-libs"
+          - "espidf-aws-iot"
+          - "espidf-ble-eddystone"
+          - "espidf-coap-server"
+          - "espidf-exceptions"
+          - "espidf-hello-world"
+          - "espidf-http-request"
+          - "espidf-peripherals-uart"
+          - "espidf-peripherals-usb"
+          - "espidf-storage-sdcard"
+          - "espidf-storage-spiffs"
+          - "espidf-ulp-adc"
+          - "espidf-ulp-pulse"
         package: ["all","pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
@@ -201,9 +207,9 @@ jobs:
 
       - name: package src
         run: |
-          zip -r all.zip boards builder extend misc link.json link.py platform.json platform.py
-          zip -r qio.zip boards extend misc link.json link.py
-          zip -r pio.zip boards builder misc platform.json platform.py
+          zip -r all.zip boards builder extend monitor link.json link.py platform.json platform.py
+          zip -r qio.zip boards extend monitor link.json link.py
+          zip -r pio.zip boards builder monitor platform.json platform.py
           mkdir package
           cp *.zip package/
 
@@ -412,7 +418,7 @@ jobs:
       - name: Upload Package
         id: OSS
         run: |
-          zip -r ${{ env.PLAT }}.zip examples boards builder extend misc link.json link.py platform.json platform.py
+          zip -r ${{ env.PLAT }}.zip examples boards builder extend monitor link.json link.py platform.json platform.py
           ossutil cp ${{ env.PLAT }}.zip ${{ secrets.OSS_BUCKET_P }} -f
           echo "::set-output name=status::success"
 
