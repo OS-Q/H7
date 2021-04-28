@@ -53,25 +53,25 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - "arduino-blink"
-          - "arduino-wifiscan"
-          - "simba-blink"
-          - "pumbaa-blink"
-          - "arduino-briki-internal-libs"
+          # - "arduino-blink"
+          # - "arduino-wifiscan"
+          # - "simba-blink"
+          # - "pumbaa-blink"
+          # - "arduino-briki-internal-libs"
           - "espidf-arduino-blink"
           - "espidf-arduino-wifiscan"
-          - "espidf-aws-iot"
-          - "espidf-ble-eddystone"
-          - "espidf-coap-server"
-          - "espidf-exceptions"
-          - "espidf-hello-world"
-          - "espidf-http-request"
-          - "espidf-peripherals-uart"
-          - "espidf-peripherals-usb"
-          - "espidf-storage-sdcard"
-          - "espidf-storage-spiffs"
-          - "espidf-ulp-adc"
-          - "espidf-ulp-pulse"
+          # - "espidf-aws-iot"
+          # - "espidf-ble-eddystone"
+          # - "espidf-coap-server"
+          # - "espidf-exceptions"
+          # - "espidf-hello-world"
+          # - "espidf-http-request"
+          # - "espidf-peripherals-uart"
+          # - "espidf-peripherals-usb"
+          # - "espidf-storage-sdcard"
+          # - "espidf-storage-spiffs"
+          # - "espidf-ulp-adc"
+          # - "espidf-ulp-pulse"
 
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -87,7 +87,7 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install PIO
+      - name: Install package
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
