@@ -17,9 +17,10 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/arduino-blink
-            pio run -d examples/pumbaa-blink
-            pio run -d examples/simba-blink
+            qio run -d examples/arduino-blink
+            qio run -d examples/pumbaa-blink
+            qio run -d examples/simba-blink
+            qio run -d examples/espidf-ulp-adc
 
 workflows:
     version: 2

@@ -4,7 +4,6 @@
 
 [![Build Status](https://github.com/OS-Q/P51/workflows/QIO/badge.svg)](https://github.com/OS-Q/P51/actions/workflows/QIO.yml)
 [![Build Status](https://circleci.com/gh/OS-Q/P51.svg?style=svg)](https://circleci.com/gh/OS-Q/P51)
-[![Build Status](https://travis-ci.com/OS-Q/P51.svg?branch=master)](https://travis-ci.com/OS-Q/P51)
 [![Build Status](https://cloud.drone.io/api/badges/OS-Q/P51/status.svg)](https://cloud.drone.io/OS-Q/P51)
 [![Build status](https://ci.appveyor.com/api/projects/status/htc313andl4lh51e?svg=true)](https://ci.appveyor.com/project/Qitas/P51)
 
