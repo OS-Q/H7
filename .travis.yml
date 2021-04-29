@@ -13,7 +13,7 @@ env:
 
 install:
   - pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-  - qio platform install https://github.com/OS-Q/P51/archive/qio.zip
+  - qio platform install file://.
 
 script:
   - qio run -d $PLATFORMIO_PROJECT_DIR
