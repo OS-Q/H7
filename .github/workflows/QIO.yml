@@ -1,4 +1,8 @@
+<<<<<<< HEAD:.github/workflows/QIO.yml
 name: QIO
+=======
+name: CI
+>>>>>>> pio:.github/workflows/CI.yml
 
 on:
   push:
@@ -89,16 +93,21 @@ jobs:
       - name: Install package
         run: |
           python -m pip install --upgrade pip
+<<<<<<< HEAD:.github/workflows/QIO.yml
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
           pio platform install https://github.com/OS-Q/P51/archive/qio.zip
+=======
+          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+          pio platform install file://.
+>>>>>>> pio:.github/workflows/CI.yml
 
       - name: Build examples
-        id: build
         if: success()
         working-directory: examples
         run: |
           pio run -d ${{ matrix.example }}
 
+<<<<<<< HEAD:.github/workflows/QIO.yml
   QIO_tail:
     needs:
       - QIO
@@ -116,3 +125,5 @@ jobs:
           topic: ${{github.repository}}/${{github.workflow}}
           message: "QIO failure"
 
+=======
+>>>>>>> pio:.github/workflows/CI.yml

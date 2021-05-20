@@ -1,21 +1,38 @@
+<<<<<<< HEAD
 name: CI
+=======
+<<<<<<< HEAD:.github/workflows/QIO.yml
+name: QIO
+=======
+name: CI
+>>>>>>> pio:.github/workflows/CI.yml
+>>>>>>> pio
 
 on:
   push:
     branches:
+<<<<<<< HEAD
       - master
       - main
     paths:
       - 'boards/**'
       - 'builder/**'
+=======
+      - qio
+    paths:
+      - 'boards/**'
+>>>>>>> pio
       - 'extend/**'
       - 'examples/**'
       - 'monitor/**'
       - '**.json'
       - '**.py'
 
+<<<<<<< HEAD
 env:
   UPLOAD_BUILD: true
+=======
+>>>>>>> pio
 
 jobs:
   CodeCheck:
@@ -93,6 +110,7 @@ jobs:
       - name: Install package
         run: |
           python -m pip install --upgrade pip
+<<<<<<< HEAD
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
           pio platform install file://.
 
@@ -113,6 +131,24 @@ jobs:
           path: examples/${{ matrix.example }}/.pio
 
   qio_tail:
+=======
+<<<<<<< HEAD:.github/workflows/QIO.yml
+          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
+          pio platform install https://github.com/OS-Q/P51/archive/qio.zip
+=======
+          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+          pio platform install file://.
+>>>>>>> pio:.github/workflows/CI.yml
+
+      - name: Build examples
+        if: success()
+        working-directory: examples
+        run: |
+          pio run -d ${{ matrix.example }}
+
+<<<<<<< HEAD:.github/workflows/QIO.yml
+  QIO_tail:
+>>>>>>> pio
     needs:
       - QIO
     if: failure()
@@ -129,6 +165,7 @@ jobs:
           topic: ${{github.repository}}/${{github.workflow}}
           message: "QIO failure"
 
+<<<<<<< HEAD
   PIO:
     strategy:
       fail-fast: false
@@ -203,3 +240,7 @@ jobs:
           password: ${{secrets.MQTT_PASSWORD}}
           topic: ${{github.repository}}/${{github.workflow}}
           message: "PIO failure"
+=======
+=======
+>>>>>>> pio:.github/workflows/CI.yml
+>>>>>>> pio
