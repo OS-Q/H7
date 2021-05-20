@@ -1,42 +1,22 @@
-<<<<<<< HEAD
 name: CI
-=======
-<<<<<<< HEAD:.github/workflows/QIO.yml
-name: QIO
-=======
-name: CI
->>>>>>> pio:.github/workflows/CI.yml
->>>>>>> pio
 
 on:
   push:
     branches:
-<<<<<<< HEAD
       - master
-      - main
     paths:
       - 'boards/**'
       - 'builder/**'
-=======
-      - qio
-    paths:
-      - 'boards/**'
->>>>>>> pio
       - 'extend/**'
       - 'examples/**'
       - 'monitor/**'
       - '**.json'
       - '**.py'
 
-<<<<<<< HEAD
-env:
-  UPLOAD_BUILD: true
-=======
->>>>>>> pio
 
 jobs:
   CodeCheck:
-    name: CodeCheck
+    name: Lint
     runs-on: ubuntu-latest
     steps:
     - name: Check out
@@ -48,7 +28,7 @@ jobs:
       uses: Qful/check-action@master
       with:
         github_token: ${{ secrets.OSQ_REPO_TOKEN }}
-        enable: all #performance,portability,warning
+        enable: all
         inconclusive: disable
         inline_suppression: disable
         force_language: c
@@ -70,7 +50,7 @@ jobs:
         name: code_check_report
         path: codecheck.txt
 
-  QIO:
+  build:
     strategy:
       fail-fast: false
       matrix:
@@ -92,7 +72,7 @@ jobs:
           - "espidf-storage-spiffs"
           - "espidf-ulp-adc"
           - "espidf-ulp-pulse"
-
+        package: ["pio","qio"]
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     runs-on: ${{ matrix.os }}
@@ -107,140 +87,19 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install package
+      - name: Install qio
+        if: matrix.package == 'qio'
         run: |
-          python -m pip install --upgrade pip
-<<<<<<< HEAD
           pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          pio platform install file://.
+          qio platform install file://.
 
-      - name: Build examples
-        id: build
-        if: success()
-        working-directory: examples
+      - name: Install pio
+        if: matrix.package == 'pio'
         run: |
-          pio run -d ${{ matrix.example }} >> ${{ matrix.example }}/log.txt
-          # cp -f ${{ matrix.example }}/.*io/build/**/*.bin  ${{ matrix.example }}/
-          echo "::set-output name=status::success"
-
-      - name: Upload
-        if: env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name: qio_${{ matrix.example }}_${{ matrix.os }}
-          path: examples/${{ matrix.example }}/.pio
-
-  qio_tail:
-=======
-<<<<<<< HEAD:.github/workflows/QIO.yml
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          pio platform install https://github.com/OS-Q/P51/archive/qio.zip
-=======
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
           pio platform install file://.
->>>>>>> pio:.github/workflows/CI.yml
 
       - name: Build examples
-        if: success()
         working-directory: examples
         run: |
           pio run -d ${{ matrix.example }}
-
-<<<<<<< HEAD:.github/workflows/QIO.yml
-  QIO_tail:
->>>>>>> pio
-    needs:
-      - QIO
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: notification
-        uses: Qful/mqtt-action@master
-        with:
-          protocol: mqtt
-          host: ${{secrets.MQTT_SERVER}}
-          port: 1883
-          username: ${{secrets.MQTT_USERNAME}}
-          password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}
-          message: "QIO failure"
-
-<<<<<<< HEAD
-  PIO:
-    strategy:
-      fail-fast: false
-      matrix:
-        example:
-          - "arduino-blink"
-          - "arduino-wifiscan"
-          - "simba-blink"
-          - "pumbaa-blink"
-          - "arduino-briki-internal-libs"
-          - "espidf-aws-iot"
-          - "espidf-ble-eddystone"
-          - "espidf-coap-server"
-          - "espidf-exceptions"
-          - "espidf-hello-world"
-          - "espidf-http-request"
-          - "espidf-peripherals-uart"
-          - "espidf-peripherals-usb"
-          - "espidf-storage-sdcard"
-          - "espidf-storage-spiffs"
-          - "espidf-ulp-adc"
-          - "espidf-ulp-pulse"
-
-        os: [ubuntu-latest, windows-latest, macos-latest]
-
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: "recursive"
-          fetch-depth: 1
-
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.9
-
-      - name: Install PIO
-        run: |
-          python -m pip install --upgrade pip
-          pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install file://.
-
-      - name: Build examples
-        id: build
-        if: success()
-        working-directory: examples
-        run: |
-          pio run -d ${{ matrix.example }} >> ${{ matrix.example }}/log.txt
-          echo "::set-output name=status::success"
-
-      - name: Upload
-        if: env.UPLOAD_BUILD
-        uses: actions/upload-artifact@v2
-        with:
-          name: pio_${{ matrix.example }}_${{ matrix.os }}
-          path: examples/${{ matrix.example }}/.pio
-
-  pio_tail:
-    needs:
-      - PIO
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: notification
-        uses: Qful/mqtt-action@master
-        with:
-          protocol: mqtt
-          host: ${{secrets.MQTT_SERVER}}
-          port: 1883
-          username: ${{secrets.MQTT_USERNAME}}
-          password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}
-          message: "PIO failure"
-=======
-=======
->>>>>>> pio:.github/workflows/CI.yml
->>>>>>> pio
