@@ -59,7 +59,6 @@ jobs:
           - "arduino-wifiscan"
           - "simba-blink"
           - "pumbaa-blink"
-          - "arduino-briki-internal-libs"
           - "espidf-aws-iot"
           - "espidf-ble-eddystone"
           - "espidf-coap-server"
