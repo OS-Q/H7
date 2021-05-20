@@ -1,4 +1,4 @@
-name: PIO
+name: CI
 
 on:
   push:
@@ -90,28 +90,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install https://github.com/OS-Q/P51/archive/pio.zip
+          pio platform install file://.
 
       - name: Build examples
-        id: build
         if: success()
         working-directory: examples
         run: |
           pio run -d ${{ matrix.example }}
 
-  pio_tail:
-    needs:
-      - PIO
-    if: failure()
-    runs-on: ubuntu-latest
-    steps:
-      - name: notification
-        uses: Qful/mqtt-action@master
-        with:
-          protocol: mqtt
-          host: ${{secrets.MQTT_SERVER}}
-          port: 1883
-          username: ${{secrets.MQTT_USERNAME}}
-          password: ${{secrets.MQTT_PASSWORD}}
-          topic: ${{github.repository}}/${{github.workflow}}
-          message: "PIO failure"
