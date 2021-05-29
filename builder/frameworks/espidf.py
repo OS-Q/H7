@@ -55,7 +55,7 @@ assert os.path.isdir(FRAMEWORK_DIR)
 
 # Arduino framework as a component is not compatible with ESP-IDF >=4.1
 if "arduino" in env.subst("$PIOFRAMEWORK"):
-    ARDUINO_FRAMEWORK_DIR = platform.get_package_dir("A511")
+    ARDUINO_FRAMEWORK_DIR = platform.get_package_dir("framework-arduinoespressif32")
     # Possible package names in 'package@version' format is not compatible with CMake
     if "@" in os.path.basename(ARDUINO_FRAMEWORK_DIR):
         new_path = os.path.join(
@@ -1102,6 +1102,8 @@ extra_components = [generate_default_component()]
 if env.subst("$PROJECT_SRC_DIR") != os.path.join(env.subst("$PROJECT_DIR"), "main"):
     extra_components.append(env.subst("$PROJECT_SRC_DIR"))
     if "arduino" in env.subst("$PIOFRAMEWORK"):
+        print("Warning! Arduino framework as an ESP-IDF component doesn't handle "
+              "the `variant` field! The default `esp32` variant will be used.")
         extra_components.append(ARDUINO_FRAMEWORK_DIR)
 
 print("Reading CMake configuration...")
