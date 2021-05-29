@@ -20,7 +20,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class P5111Platform(PlatformBase):
+class P511Platform(PlatformBase):
     def configure_default_packages(self, variables, targets):
         if not variables.get("board"):
             return PlatformBase.configure_default_packages(self, variables, targets)
