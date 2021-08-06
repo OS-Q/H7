@@ -2,16 +2,11 @@ name: CI
 
 on:
   push:
-    branches:
-      - master
     paths:
-      - 'boards/**'
+      - 'platform.*'
       - 'builder/**'
-      - 'extend/**'
       - 'examples/**'
-      - 'monitor/**'
-      - '**.json'
-      - '**.py'
+      - '**.yml'
 
 
 jobs:
@@ -57,48 +52,36 @@ jobs:
         example:
           - "arduino-blink"
           - "arduino-wifiscan"
-          - "simba-blink"
-          - "pumbaa-blink"
+          - "espidf-arduino-blink"
+          - "espidf-arduino-wifiscan"
           - "espidf-aws-iot"
           - "espidf-ble-eddystone"
           - "espidf-coap-server"
           - "espidf-exceptions"
-          - "espidf-hello-world"
           - "espidf-http-request"
           - "espidf-peripherals-uart"
-          - "espidf-peripherals-usb"
           - "espidf-storage-sdcard"
           - "espidf-storage-spiffs"
           - "espidf-ulp-adc"
           - "espidf-ulp-pulse"
-        package: ["pio","qio"]
+          - "pumbaa-blink"
+          - "simba-blink"
         os: [ubuntu-latest, windows-latest, macos-latest]
-
+        python-version: [3.9]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
-          fetch-depth: 1
-
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
-          python-version: 3.9
-
-      - name: Install qio
-        if: matrix.package == 'qio'
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
         run: |
-          pip install -U https://github.com/OS-Q/M03/releases/latest/download/qio.zip
-          qio platform install file://.
-
-      - name: Install pio
-        if: matrix.package == 'pio'
-        run: |
-          pip install -U https://github.com/platformio/platformio/archive/develop.zip
-          pio platform install file://.
-
+          python -m pip install --upgrade pip
+          pip install -U https://github.com/OS-Q/PIO/archive/develop.zip
+          platformio platform install file://.
       - name: Build examples
-        working-directory: examples
         run: |
-          pio run -d ${{ matrix.example }}
+          platformio run -d examples/${{ matrix.example }}

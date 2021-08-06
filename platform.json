@@ -1,8 +1,9 @@
 {
-  "name": "P511",
-  "title": "Espressif ESP32 WiFi SoC",
-  "description": "Espressif Systems is a privately held fabless semiconductor company. They provide wireless communications and Wi-Fi chips which are widely used in mobile devices and the Internet of Things applications.",
+  "name": "P51",
+  "title": "Espressif32 Wi-Fi & BLE SoC",
+  "description": "They provide wireless communications and Wi-Fi chips which are widely used in mobile devices and the Internet of Things applications.",
   "homepage": "https://espressif.com/",
+  "license": "Apache-2.0",
   "keywords": [
     "dev-platform",
     "Wi-Fi",
@@ -15,9 +16,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/platformio/platform-espressif32.git"
+    "url": "https://github.com/OS-Q/P51.git"
   },
-  "version": "3.2.0",
+  "version": "3.3.1",
   "frameworks": {
     "arduino": {
       "package": "framework-arduinoespressif32",
@@ -70,6 +71,12 @@
       "owner": "platformio",
       "version": "~1.22851.0"
     },
+    "toolchain-riscv-esp": {
+      "type": "toolchain",
+      "optional": true,
+      "owner": "platformio",
+      "version": "~1.80400.0"
+    },
     "framework-arduinoespressif32": {
       "type": "framework",
       "optional": true,
@@ -86,7 +93,7 @@
       "type": "framework",
       "optional": true,
       "owner": "platformio",
-      "version": "~3.40201.0",
+      "version": "~3.40300.0",
       "optionalVersions": ["~3.40001.0"]
     },
     "framework-simba": {
@@ -104,7 +111,7 @@
     "tool-esptoolpy": {
       "type": "uploader",
       "owner": "platformio",
-      "version": "~1.30000.0"
+      "version": "~1.30100.0"
     },
     "tool-mbctool": {
       "optional": true,

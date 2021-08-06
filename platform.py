@@ -1,17 +1,3 @@
-# Copyright 2014-present PlatformIO <contact@platformio.org>
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#    http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import copy
 import os
 
@@ -20,7 +6,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class P511Platform(PlatformBase):
+class P51Platform(PlatformBase):
     def configure_default_packages(self, variables, targets):
         if not variables.get("board"):
             return PlatformBase.configure_default_packages(self, variables, targets)
@@ -44,11 +30,14 @@ class P511Platform(PlatformBase):
             if "arduino" in frameworks:
                 # Arduino component is not compatible with ESP-IDF >=4.1
                 self.packages["framework-espidf"]["version"] = "~3.40001.0"
-        # ESP32-S2 toolchain is identical for both Arduino and ESP-IDF
-        if mcu == "esp32s2":
+        if mcu in ("esp32s2", "esp32c3"):
             self.packages.pop("toolchain-xtensa32", None)
-            self.packages["toolchain-xtensa32s2"]["optional"] = False
-            self.packages["toolchain-esp32s2ulp"]["optional"] = False
+            self.packages.pop("toolchain-esp32ulp", None)
+            # RISC-V based toolchain for ESP32C3 and ESP32S2 ULP
+            self.packages["toolchain-riscv-esp"]["optional"] = False
+            if mcu == "esp32s2":
+                self.packages["toolchain-xtensa32s2"]["optional"] = False
+                self.packages["toolchain-esp32s2ulp"]["optional"] = False
 
         build_core = variables.get(
             "board_build.core", board_config.get("build.core", "arduino")

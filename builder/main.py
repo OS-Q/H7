@@ -31,15 +31,6 @@ def _get_board_f_flash(env):
     return str(int(int(frequency) / 1000000)) + "m"
 
 
-def _get_board_flash_mode(env):
-    mode = env.subst("$BOARD_FLASH_MODE")
-    if mode == "qio":
-        return "dio"
-    elif mode == "qout":
-        return "dout"
-    return mode
-
-
 def _parse_size(value):
     if isinstance(value, int):
         return value
@@ -133,20 +124,22 @@ env.SConscript("compat.py", exports="env")
 platform = env.PioPlatform()
 board = env.BoardConfig()
 mcu = board.get("build.mcu", "esp32")
+toolchain_arch = "xtensa-%s" % mcu
+if mcu == "esp32c3":
+    toolchain_arch = "riscv32-esp"
 
 env.Replace(
     __get_board_f_flash=_get_board_f_flash,
-    __get_board_flash_mode=_get_board_flash_mode,
 
-    AR="xtensa-%s-elf-ar" % mcu,
-    AS="xtensa-%s-elf-as" % mcu,
-    CC="xtensa-%s-elf-gcc" % mcu,
-    CXX="xtensa-%s-elf-g++" % mcu,
-    GDB="xtensa-%s-elf-gdb" % mcu,
+    AR="%s-elf-ar" % toolchain_arch,
+    AS="%s-elf-as" % toolchain_arch,
+    CC="%s-elf-gcc" % toolchain_arch,
+    CXX="%s-elf-g++" % toolchain_arch,
+    GDB="%s-elf-gdb" % toolchain_arch,
     OBJCOPY=join(
         platform.get_package_dir("tool-esptoolpy") or "", "esptool.py"),
-    RANLIB="xtensa-%s-elf-ranlib" % mcu,
-    SIZETOOL="xtensa-%s-elf-size" % mcu,
+    RANLIB="%s-elf-ranlib" % toolchain_arch,
+    SIZETOOL="%s-elf-size" % toolchain_arch,
 
     ARFLAGS=["rc"],
 
@@ -309,7 +302,7 @@ elif upload_protocol == "esptool":
             "--before", "default_reset",
             "--after", "hard_reset",
             "write_flash", "-z",
-            "--flash_mode", "${__get_board_flash_mode(__env__)}",
+            "--flash_mode", "$BOARD_FLASH_MODE",
             "--flash_freq", "${__get_board_f_flash(__env__)}",
             "--flash_size", "detect"
         ],
