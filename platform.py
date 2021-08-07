@@ -6,7 +6,7 @@ from platformio.managers.platform import PlatformBase
 from platformio.util import get_systype
 
 
-class P51Platform(PlatformBase):
+class P511Platform(PlatformBase):
     def configure_default_packages(self, variables, targets):
         if not variables.get("board"):
             return PlatformBase.configure_default_packages(self, variables, targets)
@@ -42,11 +42,6 @@ class P51Platform(PlatformBase):
         build_core = variables.get(
             "board_build.core", board_config.get("build.core", "arduino")
         ).lower()
-        if build_core == "mbcwb":
-            self.packages["framework-arduinoespressif32"]["optional"] = True
-            self.packages["framework-arduino-mbcwb"]["optional"] = False
-            self.packages["tool-mbctool"]["type"] = "uploader"
-            self.packages["tool-mbctool"]["optional"] = False
 
         return PlatformBase.configure_default_packages(self, variables, targets)
 

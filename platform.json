@@ -1,5 +1,5 @@
 {
-  "name": "P51",
+  "name": "P511",
   "title": "Espressif32 Wi-Fi & BLE SoC",
   "description": "They provide wireless communications and Wi-Fi chips which are widely used in mobile devices and the Internet of Things applications.",
   "homepage": "https://espressif.com/",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/OS-Q/P51.git"
+    "url": "https://github.com/OS-Q/P511.git"
   },
   "version": "3.3.1",
   "frameworks": {
@@ -82,12 +82,6 @@
       "optional": true,
       "owner": "platformio",
       "version": "~3.10006.0"
-    },
-    "framework-arduino-mbcwb": {
-      "type": "framework",
-      "optional": true,
-      "owner": "meteca",
-      "version": ">=2.1.1"
     },
     "framework-espidf": {
       "type": "framework",
