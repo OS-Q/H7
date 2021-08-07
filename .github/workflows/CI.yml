@@ -8,7 +8,6 @@ on:
       - 'examples/**'
       - '**.yml'
 
-
 jobs:
   CodeCheck:
     name: Lint
@@ -50,20 +49,8 @@ jobs:
       fail-fast: false
       matrix:
         example:
-          - "arduino-blink"
-          - "arduino-wifiscan"
           - "espidf-arduino-blink"
           - "espidf-arduino-wifiscan"
-          - "espidf-aws-iot"
-          - "espidf-ble-eddystone"
-          - "espidf-coap-server"
-          - "espidf-exceptions"
-          - "espidf-http-request"
-          - "espidf-peripherals-uart"
-          - "espidf-storage-sdcard"
-          - "espidf-storage-spiffs"
-          - "espidf-ulp-adc"
-          - "espidf-ulp-pulse"
           - "pumbaa-blink"
           - "simba-blink"
         os: [ubuntu-latest, windows-latest, macos-latest]

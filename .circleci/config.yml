@@ -17,7 +17,6 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/arduino-blink
             pio run -d examples/pumbaa-blink
             pio run -d examples/simba-blink
             pio run -d examples/espidf-ulp-adc
@@ -38,7 +37,6 @@ jobs:
       - run:
           name: "Build"
           command: |
-            pio run -d examples/arduino-blink
             pio run -d examples/pumbaa-blink
             pio run -d examples/simba-blink
             pio run -d examples/espidf-ulp-adc
