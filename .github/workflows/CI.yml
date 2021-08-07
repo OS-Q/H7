@@ -3,10 +3,7 @@ name: CI
 on:
   push:
     paths:
-      - 'platform.*'
-      - 'builder/**'
       - 'examples/**'
-      - '**.yml'
 
 jobs:
   CodeCheck:

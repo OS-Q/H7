@@ -26,6 +26,8 @@ jobs:
           - "espidf-storage-spiffs"
           - "espidf-ulp-adc"
           - "espidf-ulp-pulse"
+          - "espidf-arduino-blink"
+          - "espidf-arduino-wifiscan"
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [3.9]
 
