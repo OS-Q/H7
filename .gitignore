@@ -13,4 +13,5 @@ examples/**/*.yml
 **/CONTR*
 **/CHANGE*
 examples/**/*.md
-
+sdkconfig.*
+CMakeLists.txt
