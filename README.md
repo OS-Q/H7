@@ -10,8 +10,8 @@
 * 优化单一平台(ESP32 Only)，不再追求多平台和硬件兼容性；
 * 更确定的资源池和更保守的升级策略；
 
-| 硬件平台支持 | [![Build Status](https://github.com/OS-Q/P511/workflows/arduino/badge.svg)](https://github.com/OS-Q/P511/actions/workflows/arduino.yml) | [![Build Status](https://github.com/OS-Q/P511/workflows/espidf/badge.svg)](https://github.com/OS-Q/P511/actions/workflows/espidf.yml) |
-| ------- | ------- | ------ |
-| [ESP32](https://github.com/SoCXin/ESP32) |  √  |  √  |
+| 硬件平台支持 | [![Build Status](https://github.com/OS-Q/P511/workflows/arduino/badge.svg)](https://github.com/OS-Q/P511/actions/workflows/arduino.yml) | [![Build Status](https://github.com/OS-Q/P511/workflows/espidf/badge.svg)](https://github.com/OS-Q/P511/actions/workflows/espidf.yml) |[![Build Status](https://github.com/OS-Q/P511/workflows/simba/badge.svg)](https://github.com/OS-Q/P511/actions/workflows/simba.yml) | [![Build Status](https://github.com/OS-Q/P511/workflows/pumbaa/badge.svg)](https://github.com/OS-Q/P511/actions/workflows/pumbaa.yml) |
+| ------- | ------- | ------ | ------- | ------ |
+| [ESP32](https://github.com/SoCXin/ESP32) |  √  |  √  |  √  |  √  |
 
 #### [源圈OS-Q](http://www.OS-Q.com)
