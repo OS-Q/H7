@@ -3,7 +3,10 @@ name: CI
 on:
   push:
     paths:
-      - 'examples/**'
+      - '**/**.ino'
+      - '**/**.cpp'
+      - '**/**.h'
+      - '**/**.c'
 
 jobs:
   CodeCheck:
@@ -25,7 +28,7 @@ jobs:
         force_language: c
         force: enable
         max_ctu_depth: 2
-        std: c11
+        std: c99
         output_file: ./codecheck.txt
         other_options: --bug-hunting --verbose --std=c11
 
