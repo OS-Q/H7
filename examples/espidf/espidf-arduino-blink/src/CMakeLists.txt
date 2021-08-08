@@ -1,1 +1,1 @@
-idf_component_register(SRCS)
+idf_component_register(SRCS "Blink.cpp")
